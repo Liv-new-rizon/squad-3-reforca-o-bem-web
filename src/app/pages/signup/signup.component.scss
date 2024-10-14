@@ -1,0 +1,93 @@
+.back-login {
+    display: flex;
+    height: 64px;
+    align-items: center;
+
+    p{
+        font-size: 22px;
+        margin-left: 20px;
+    }
+}
+
+.west {
+    cursor: pointer;
+    margin-left: 135px;
+}
+
+mat-form-field {
+    margin-top: 36px;
+}
+
+.signup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-text-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.signup-text {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    width: 100%;
+    margin-bottom: 12px;
+    margin-top: 28px;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    width: 552px;
+}
+
+.signup-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.back {
+    width: 264px;
+    height: 40px;
+    border: 1px solid #79747E !important;
+    border-radius: 24px;
+    color: #65558F !important;
+    font-size: 14px;
+}
+
+.send {
+    width: 264px;
+    height: 40px;
+    background-color: #65558F !important;
+    border-radius: 24px;
+    color: white !important;
+    font-size: 14px;
+    transition: 0.5s ease;
+}
+
+.send:hover {
+    background-color: #716398 !important;
+}
+
+:host ::ng-deep .mdc-text-field--outlined {
+    --mdc-outlined-text-field-container-shape: 4px;
+}
+
+::ng-deep .mdc-notched-outline > * {
+    border-color: #79747E !important;
+  }
+  
+::ng-deep .mdc-text-field--focused .mdc-notched-outline > * {
+    border-color: #65558F !important;
+}
+  
+::ng-deep .mdc-text-field--invalid .mdc-notched-outline > * {
+    border-color: red !important;
+}
