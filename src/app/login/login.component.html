@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+
+    <form (ngSubmit)="login()" class="login-container">
+        <img src="assets/img/logo-reforcaOBem.png" alt="logo" class="login-image" />
+
+        <p>Faça seu login para entrar na plataforma</p>
+
+        <!-- Campo E-mail -->
+        <div>
+            <input id="email" name="email" type="email" placeholder="E-mail" [(ngModel)]="email"
+                (blur)="validateEmail()" required />
+            <div *ngIf="emailError" class="error-message">{{ emailError }}</div>
+        </div>
+
+        <!-- Campo Senha -->
+        <div class="password-field">
+            <div class="input-container">
+                <input id="password" name="password" [type]="isPasswordVisible ? 'text' : 'password'"
+                    placeholder="Senha" [(ngModel)]="password" (blur)="validatePassword()" required minlength="8" />
+                <button type="button" (click)="togglePasswordVisibility()">
+                    <i [class]="isPasswordVisible ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
+                </button>
+            </div>
+            <div *ngIf="passwordError" class="error-message" [ngClass]="{'visible': passwordError}">
+                {{ passwordError }}
+            </div>
+        </div>
+
+        <!-- Botão Entrar -->
+        <button [disabled]="!isFormValid" type="submit" class="login-button">Entrar</button>
+
+        <button type="button" (click)="forgotPassword()" class="forgot-password-button">Esqueceu sua senha?</button>
+
+        <!-- Mensagens e links -->
+        <div *ngIf="loginError" class="error-message">{{ loginError }}</div>
+
+        <div class="login-footer">
+            <!-- Checkbox Lembrar de mim -->
+            <div class="lembrar">
+                <input type="checkbox" id="rememberMe" [(ngModel)]="rememberMe" />
+                <label for="rememberMe">Lembrar de mim</label>
+            </div>
+            <button type="button" class="register-link" (click)="navigateToRegister()">Novo por aqui? Faça seu
+                cadastro</button>
+
+        </div>
+    </form>
+
+</body>
+
+</html>
