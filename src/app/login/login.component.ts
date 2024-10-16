@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'; // Importar o Router
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -7,94 +8,84 @@ import { Router } from '@angular/router'; // Importar o Router
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  email = '';
-  password = '';
-  rememberMe = false;
-  isPasswordVisible = false;
-
-  emailError = '';
+  loginForm: FormGroup; // Usando FormGroup para gerenciar o formulário
+  emailError = ''; 
   passwordError = '';
+  emailNotRegistered = false;
   loginError = '';
-  isFormValid = false;
 
-  constructor(private router: Router) {}  // Injetar o Router
+  constructor(private router: Router, private fb: FormBuilder) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]], 
+      password: ['', [Validators.required, Validators.minLength(8)]], 
+      rememberMe: [false] 
+    });
+  }
 
   ngOnInit() {
     const savedEmail = localStorage.getItem('rememberMe');
     if (savedEmail) {
-      this.email = savedEmail;
-      this.rememberMe = true;
+      this.loginForm.patchValue({ email: savedEmail, rememberMe: true });
     }
   }
 
-  // Validação de e-mail
   validateEmail() {
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailPattern.test(this.email)) {
-      this.emailError = 'E-mail inválido';
+    if (this.loginForm.get('email')?.invalid) {
+      this.emailError = 'E-mail inválido. O e-mail deve seguir o formato: exemplo@dominio.com';
+      this.emailNotRegistered = false;
     } else {
       this.emailError = '';
-      // Verificar se e-mail já existe na base de dados (simulação)
       this.checkEmailExists();
     }
-    this.updateFormValidity();
   }
 
-  // Simulação de verificação de e-mail
   checkEmailExists() {
-    // Aqui você pode integrar com um serviço real
-    const registeredEmails = ['teste@dominio.com'];
-    if (!registeredEmails.includes(this.email)) {
-      this.emailError = '';
+    const registeredEmails = ['teste@dominio.com'];  
+    const email = this.loginForm.get('email')?.value;
+
+    if (!registeredEmails.includes(email)) {
+      this.emailError = 'Conta não encontrada. Deseja realizar seu cadastro?';
+      this.emailNotRegistered = true; 
+    } else {
+      this.emailError = '';  
+      this.emailNotRegistered = false;  
     }
   }
 
-  // Validação de senha
   validatePassword() {
-    if (this.password.length < 8) {
+    if (this.loginForm.get('password')?.invalid) {
       this.passwordError = 'A senha possui mínimo de 8 dígitos. Tente novamente';
     } else {
       this.passwordError = '';
     }
-    this.updateFormValidity();
   }
 
-  // Alternar visibilidade da senha
-  togglePasswordVisibility() {
-    this.isPasswordVisible = !this.isPasswordVisible;
-  }
 
-  // Atualiza a validade geral do formulário
-  updateFormValidity() {
-    this.isFormValid = this.emailError === '' && this.passwordError === '' && this.email !== '' && this.password !== '';
-  }
-
-  // Ação de login
   login() {
-    // Verificar a opção "Lembrar de mim"
-    if (this.rememberMe) {
-      localStorage.setItem('rememberMe', this.email);
-    } else {
-      localStorage.removeItem('rememberMe');
-    }
+    if (this.loginForm.valid) {
+      const { email, password, rememberMe } = this.loginForm.value;
 
-    // Validações finais e ação de login (pode integrar com um serviço real)
-    if (this.email === 'teste@dominio.com' && this.password === 'password123') {
-      this.loginError = '';
-      this.router.navigate(['/dashboard']);  // Redirecionar para a tela inicial
-    } else {
-      this.loginError = 'Senha incorreta. Tente novamente ou prossiga para a seção "Esqueceu sua senha?"';
+      if (rememberMe) {
+        localStorage.setItem('rememberMe', email);
+      } else {
+        localStorage.removeItem('rememberMe');
+      }
+
+
+      if (email === 'teste@dominio.com' && password === 'password123') {
+        this.loginError = '';
+        this.router.navigate(['/dashboard']); 
+      } else {
+        this.loginError = 'Senha incorreta. Tente novamente ou prossiga para a seção "Esqueceu sua senha?"';
+      }
     }
   }
 
-  // Ações de navegação
   navigateToRegister() {
-    this.router.navigate(['/register']);  // Navega para a página de cadastro
+    this.router.navigate(['/register']);
   }
 
   forgotPassword() {
-    if (!this.emailError) {
-      this.router.navigate(['/forgot-password']);  // Navega para a seção de redefinição de senha
-    }
+      this.router.navigate(['/forgot-password']); 
   }
 }
