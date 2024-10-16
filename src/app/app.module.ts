@@ -11,13 +11,19 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 
-import { SignupComponent, SuccessDialogComponent } from './pages/signup/signup.component';
+import { SignupComponent } from './pages/signup/signup.component';
+import { DialogComponent} from './theme/components/dialog/dialog.component';
+import { DialogService } from './services/dialog.service';
+import { FormFieldComponent } from './theme/components/form-field/form-field.component'
+import { PasswordFieldComponent } from './theme/components/password-field/password-field.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignupComponent,
-    SuccessDialogComponent
+    DialogComponent,
+    FormFieldComponent,
+    PasswordFieldComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +37,7 @@ import { SignupComponent, SuccessDialogComponent } from './pages/signup/signup.c
     MatButtonModule,
     MatDialogModule
   ],
-  providers: [],
+  providers: [DialogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

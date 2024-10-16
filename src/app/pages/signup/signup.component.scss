@@ -1,11 +1,37 @@
+$primary-color: #65558F;
+$secondary-color: #79747E;
+$hover-color: #716398;
+
+$text-size-14: 14px;
+$text-size-16: 16px;
+$text-size-22: 22px;
+
+$button-height: 40px;
+$button-width: 264px;
+
+$spacing-16: 16px;
+$spacing-20: 20px;
+$spacing-28: 28px;
+$spacing-36: 36px;
+$spacing-64: 64px;
+
+$border-radius: 24px;
+
+@mixin button-base {
+    width: $button-width;
+    height: $button-height;
+    border-radius: $border-radius;
+    font-size: $text-size-14;
+}
+
 .back-login {
     display: flex;
-    height: 64px;
+    height: $spacing-64;
     align-items: center;
 
-    p{
-        font-size: 22px;
-        margin-left: 20px;
+    p {
+        font-size: $text-size-22;
+        margin-left: $spacing-16;
     }
 }
 
@@ -14,8 +40,11 @@
     margin-left: 135px;
 }
 
-mat-form-field {
-    margin-top: 36px;
+app-form-field, app-password-field {
+    margin-top: $spacing-36;
+    display: flex;
+    flex-direction: column;
+    width: 552px;
 }
 
 .signup {
@@ -32,48 +61,39 @@ mat-form-field {
 }
 
 .signup-text {
-    font-size: 16px;
+    font-size: $text-size-16;
     font-weight: 500;
     text-align: left;
     width: 100%;
-    margin-bottom: 12px;
-    margin-top: 28px;
-}
-
-.signup-form {
-    display: flex;
-    flex-direction: column;
-    width: 552px;
+    margin-bottom: $spacing-16;
+    margin-top: $spacing-28;
 }
 
 .signup-buttons {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: $spacing-20;
     width: 100%;
 }
 
 .back {
-    width: 264px;
-    height: 40px;
-    border: 1px solid #79747E !important;
-    border-radius: 24px;
-    color: #65558F !important;
-    font-size: 14px;
+    @include button-base;
+    border: 1px solid $secondary-color !important;
+    color: $primary-color !important;
 }
 
 .send {
-    width: 264px;
-    height: 40px;
-    background-color: #65558F !important;
-    border-radius: 24px;
+    width: $button-width;
+    height: $button-height;
+    background-color: $primary-color !important;
+    border-radius: $border-radius;
     color: white !important;
-    font-size: 14px;
+    font-size: $text-size-14;
     transition: 0.5s ease;
 }
 
 .send:hover {
-    background-color: #716398 !important;
+    background-color: $hover-color !important;
 }
 
 :host ::ng-deep .mdc-text-field--outlined {
@@ -81,11 +101,11 @@ mat-form-field {
 }
 
 ::ng-deep .mdc-notched-outline > * {
-    border-color: #79747E !important;
-  }
+    border-color: $secondary-color !important;
+}
   
 ::ng-deep .mdc-text-field--focused .mdc-notched-outline > * {
-    border-color: #65558F !important;
+    border-color: $primary-color !important;
 }
   
 ::ng-deep .mdc-text-field--invalid .mdc-notched-outline > * {

@@ -4,47 +4,39 @@
         <p>Cadastro</p>
     </section>
 
-    <section class="signup">
+    <section class="signup" [formGroup]="signupForm">
         <div class="signup-text-form">
             <div class="signup-text">
                 <p>Novo Cadastro</p>
                 <p>Insira seus dados</p>
             </div>
-    
+
             <div class="signup-form">
-                <mat-form-field subscriptSizing="dynamic" appearance="outline">
-                    <mat-label>Nome completo</mat-label>
-                    <input matInput type="text" [formControl]="nameFormControl" [required]="false">
-                    <mat-error *ngIf="nameFormControl.hasError('required') || nameFormControl.hasError('whitespace')">Nome é obrigatório</mat-error>
-                    <mat-error *ngIf="nameFormControl.hasError('pattern')">Nome inválido</mat-error>
-                </mat-form-field>
-        
-                <mat-form-field subscriptSizing="dynamic" appearance="outline">
-                    <mat-label>E-mail</mat-label>
-                    <input matInput type="email" [formControl]="emailFormControl" [required]="false">
-                    <mat-error *ngIf="emailFormControl.hasError('required')">E-mail é obrigatório</mat-error>
-                    <mat-error *ngIf="emailFormControl.hasError('pattern') && !emailFormControl.hasError('required')">E-mail inválido</mat-error>
-                </mat-form-field>
-    
-                <mat-form-field subscriptSizing="dynamic" appearance="outline">
-                    <mat-label>Senha de no mínimo 8 dígitos</mat-label>
-                    <input matInput [type]="hidePassword() ? 'password' : 'text'" [formControl]="passwordFormControl" [required]="false">
-                    <button mat-icon-button matSuffix (click)="togglePasswordVisibility($event)" [attr.aria-pressed]="hidePassword()">
-                        <mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                    <mat-error *ngIf="passwordFormControl.hasError('required')">Senha é obrigatória</mat-error>
-                    <mat-error *ngIf="passwordFormControl.hasError('minlength')">Use 8 caracteres ou mais para sua senha</mat-error>
-                </mat-form-field>
-    
-                <mat-form-field subscriptSizing="dynamic" appearance="outline">
-                    <mat-label>Confirme sua senha</mat-label>
-                    <input matInput [type]="hideConfirmPassword() ? 'password' : 'text'" [formControl]="confirmPasswordFormControl" [required]="false">
-                    <button mat-icon-button matSuffix (click)="toggleConfirmPasswordVisibility($event)" [attr.aria-pressed]="hideConfirmPassword()">
-                        <mat-icon>{{hideConfirmPassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                    <mat-error *ngIf="confirmPasswordFormControl.hasError('required')">Confirme sua senha</mat-error>
-                    <mat-error *ngIf="confirmPasswordFormControl.hasError('passwordsNotMatch')">As senhas não são iguais. Tente novamente.</mat-error>
-                </mat-form-field>
+                <app-form-field 
+                    label="Nome completo" 
+                    type="text" 
+                    [formControl]="$any(signupForm).get('nameFormControl')"
+                    [errorMessages]="{ required: 'Nome é obrigatório', pattern: 'Nome inválido' }">
+                </app-form-field>
+
+                <app-form-field 
+                    label="E-mail" 
+                    type="email" 
+                    [formControl]="$any(signupForm).get('emailFormControl')"
+                    [errorMessages]="{ required: 'E-mail é obrigatório', pattern: 'E-mail inválido' }">
+                </app-form-field>
+
+                <app-password-field 
+                    label="Senha de no mínimo 8 dígitos" 
+                    [formControl]="$any(signupForm).get('passwordFormControl')"
+                    [errorMessages]="{ required: 'Senha é obrigatória', minlength: 'Use 8 caracteres ou mais para sua senha' }">
+                </app-password-field>
+
+                <app-password-field 
+                    label="Confirme sua senha" 
+                    [formControl]="$any(signupForm).get('confirmPasswordFormControl')"
+                    [errorMessages]="{ required: 'Confirme sua senha', passwordsNotMatch: 'As senhas não são iguais. Tente novamente.' }">
+                </app-password-field>
             </div>
 
             <div class="signup-buttons">

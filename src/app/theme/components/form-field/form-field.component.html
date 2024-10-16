@@ -1,0 +1,6 @@
+<mat-form-field subscriptSizing="dynamic" appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+  <input matInput [formControl]="formControl" [type]="type">
+  <mat-error *ngIf="formControl.hasError('required') || formControl.hasError('whitespace')">{{ errorMessages['required'] }}</mat-error>
+  <mat-error *ngIf="formControl.hasError('pattern')">{{ errorMessages['pattern'] }}</mat-error>
+</mat-form-field>
