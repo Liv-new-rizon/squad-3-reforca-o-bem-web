@@ -1,6 +1,6 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { FormControl, Validators, AbstractControl, ValidationErrors, FormGroup, FormBuilder} from '@angular/forms';
-import { DialogService } from '../../services/dialog.service';
+import { DialogService } from '../../core/services/dialog.service';
 import { SignupValidators } from '../../core/validators/signup-validators';
 import { NAME_PATTERN, EMAIL_PATTERN } from '../../core/constants/regex-patterns';
 

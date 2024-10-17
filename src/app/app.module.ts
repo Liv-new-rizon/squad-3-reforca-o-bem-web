@@ -13,7 +13,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { SignupComponent } from './pages/signup/signup.component';
 import { DialogComponent} from './theme/components/dialog/dialog.component';
-import { DialogService } from './services/dialog.service';
+import { DialogService } from './core/services/dialog.service';
 import { FormFieldComponent } from './theme/components/form-field/form-field.component'
 import { PasswordFieldComponent } from './theme/components/password-field/password-field.component';
 
