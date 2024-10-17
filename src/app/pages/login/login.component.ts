@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -9,22 +9,22 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
-  public emailError: string = '';
-  public passwordError: string = '';
-  public emailNotRegistered: boolean = false;
-  public loginError: string = '';
+  public emailError = ''; // O TypeScript já infere que é uma string
+  public passwordError = ''; // O TypeScript já infere que é uma string
+  public emailNotRegistered = false; // O TypeScript já infere que é um boolean
+  public loginError = ''; // O TypeScript já infere que é uma string
 
   public constructor(private router: Router, private fb: FormBuilder) {
     this.loginForm = this.fb.group({
-      email: new FormControl<string>('', [
+      email: new FormControl('', [ // Remove o tipo explícito
         Validators.required, 
         Validators.email
       ]),
-      password: new FormControl<string>('', [
+      password: new FormControl('', [ // Remove o tipo explícito
         Validators.required, 
         Validators.minLength(8)
       ]),
-      rememberMe: new FormControl<boolean>(false)
+      rememberMe: new FormControl(false) // Remove o tipo explícito
     });
   }
 
@@ -70,22 +70,14 @@ export class LoginComponent implements OnInit {
 
   public login(): void {
     if (this.loginForm.valid) {
-      const { email, password, rememberMe } = this.loginForm.value;
+      const { email, rememberMe } = this.loginForm.value; // Removi o password aqui já que não está sendo usado
 
       if (rememberMe) {
         localStorage.setItem('rememberMe', email);
       } else {
         localStorage.removeItem('rememberMe');
       }
-      // falta o banco de dados de email e ssenha para fazer a logica de verificação
-      //email para teste
-      /*if (email === 'teste@dominio.com' && password === 'password123') {
-        this.loginError = '';
-        alert('pagina inicial');
-        // this.router.navigate(['/']);
-      } else {
-        this.loginError = 'Senha incorreta. Tente novamente ou prossiga para a seção "Esqueceu sua senha?"';
-      }*/
+      // falta o banco de dados de email e senha para fazer a lógica de verificação
     }
   }
 
@@ -99,3 +91,4 @@ export class LoginComponent implements OnInit {
     // this.router.navigate(['/']); 
   }
 }
+
