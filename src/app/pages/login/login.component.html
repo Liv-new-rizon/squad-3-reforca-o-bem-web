@@ -1,0 +1,33 @@
+<div class="login-container">
+
+    <img src="assets/img/logo-reforcaOBem.png" alt="Logo Reforça o Bem" class="login-image" />
+
+    <p>Faça seu login para entrar na plataforma</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+        <mat-form-field appearance="fill">
+            <mat-label>E-mail</mat-label>
+            <input matInput formControlName="email" (blur)="validateEmail()" />
+            <mat-error *ngIf="emailError">{{ emailError }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="password-field">
+            <mat-label>Senha</mat-label>
+            <input matInput type="password" formControlName="password" (blur)="validatePassword()" />
+            <mat-error *ngIf="passwordError">{{ passwordError }}</mat-error>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="rememberMe">Lembrar de mim</mat-checkbox>
+        <button mat-raised-button color="primary" class="login-button" type="submit"
+            [disabled]="loginForm.invalid">Entrar</button>
+
+        <div class="login-footer">
+            <button mat-button class="forgot-password-button" (click)="forgotPassword()">Esqueceu sua senha?</button>
+            <a *ngIf="emailNotRegistered" class="register-link">conta não encontrada</a>
+
+            <button mat-button class="register-button" (click)="navigateToRegister()">Novo por aqui? Faça seu
+                cadastro</button>
+        </div>
+    </form>
+</div>
