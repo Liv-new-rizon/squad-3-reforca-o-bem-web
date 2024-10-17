@@ -1,4 +1,12 @@
-.action-button {
+@import 'src/assets/variables';
+
+.dialog-button {
     color: white;
     background-color: #65558F;
-  }  
+}  
+
+@media screen and (max-width: 630px) {
+  .dialog-text {
+    font-size: $text-size-16;
+  }
+}
