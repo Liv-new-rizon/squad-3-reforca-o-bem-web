@@ -1,47 +1,49 @@
 <main>
     <section class="back-login">
-        <mat-icon fontIcon="west" class="west"></mat-icon>
-        <p>Cadastro</p>
+        <div class="back-login__top">
+            <mat-icon fontIcon="west" class="back-login__west"></mat-icon>
+            <p class="back-login__text">Cadastro</p>
+        </div>
     </section>
 
     <section class="signup" [formGroup]="signupForm">
-        <div class="signup-text-form">
-            <div class="signup-text">
+        <div class="signup">
+            <div class="signup__text">
                 <p>Novo Cadastro</p>
                 <p>Insira seus dados</p>
             </div>
 
-            <div class="signup-form">
-                <app-form-field 
+            <div class="signup__form">
+                <app-form-field class="signup__form--field"
                     label="Nome completo" 
                     type="text" 
                     [formControl]="$any(signupForm).get('nameFormControl')"
                     [errorMessages]="{ required: 'Nome é obrigatório', pattern: 'Nome inválido' }">
                 </app-form-field>
 
-                <app-form-field 
+                <app-form-field class="signup__form--field"
                     label="E-mail" 
                     type="email" 
                     [formControl]="$any(signupForm).get('emailFormControl')"
                     [errorMessages]="{ required: 'E-mail é obrigatório', pattern: 'E-mail inválido' }">
                 </app-form-field>
 
-                <app-password-field 
-                    label="Senha de no mínimo 8 dígitos" 
+                <app-password-field class="signup__form--field"
+                    label="Senha" 
                     [formControl]="$any(signupForm).get('passwordFormControl')"
                     [errorMessages]="{ required: 'Senha é obrigatória', minlength: 'Use 8 caracteres ou mais para sua senha' }">
                 </app-password-field>
 
-                <app-password-field 
+                <app-password-field class="signup__form--field"
                     label="Confirme sua senha" 
                     [formControl]="$any(signupForm).get('confirmPasswordFormControl')"
                     [errorMessages]="{ required: 'Confirme sua senha', passwordsNotMatch: 'As senhas não são iguais. Tente novamente.' }">
                 </app-password-field>
             </div>
 
-            <div class="signup-buttons">
-                <button mat-stroked-button class="back">Voltar</button>
-                <button mat-flat-button class="send" (click)="onSubmit()">Enviar</button>
+            <div class="signup__button">
+                <button mat-stroked-button class="signup__button--back">Voltar</button>
+                <button mat-flat-button class="signup__button--send" (click)="onSubmit()">Enviar</button>
             </div>
         </div>
     </section>

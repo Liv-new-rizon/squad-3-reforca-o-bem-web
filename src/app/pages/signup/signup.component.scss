@@ -1,21 +1,4 @@
-$primary-color: #65558F;
-$secondary-color: #79747E;
-$hover-color: #716398;
-
-$text-size-14: 14px;
-$text-size-16: 16px;
-$text-size-22: 22px;
-
-$button-height: 40px;
-$button-width: 264px;
-
-$spacing-16: 16px;
-$spacing-20: 20px;
-$spacing-28: 28px;
-$spacing-36: 36px;
-$spacing-64: 64px;
-
-$border-radius: 24px;
+@import 'src/assets/variables';
 
 @mixin button-base {
     width: $button-width;
@@ -28,23 +11,22 @@ $border-radius: 24px;
     display: flex;
     height: $spacing-64;
     align-items: center;
+    justify-content: center;
 
-    p {
+    &__top {
+        display: flex;
+        align-items: center;
+        margin-right: 424px;
+    }
+
+    &__west {
+        cursor: pointer;
+    }
+
+    &__text {
         font-size: $text-size-22;
         margin-left: $spacing-16;
     }
-}
-
-.west {
-    cursor: pointer;
-    margin-left: 135px;
-}
-
-app-form-field, app-password-field {
-    margin-top: $spacing-36;
-    display: flex;
-    flex-direction: column;
-    width: 552px;
 }
 
 .signup {
@@ -52,48 +34,52 @@ app-form-field, app-password-field {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
 
-.signup-text-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    &__text {
+        font-size: $text-size-16;
+        font-weight: 500;
+        text-align: left;
+        width: 100%;
+        margin-bottom: $spacing-16;
+        margin-top: $spacing-28;
+    }
 
-.signup-text {
-    font-size: $text-size-16;
-    font-weight: 500;
-    text-align: left;
-    width: 100%;
-    margin-bottom: $spacing-16;
-    margin-top: $spacing-28;
-}
+    &__form {
+        display: flex;
+        flex-direction: column;
+        width: 552px;
 
-.signup-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: $spacing-20;
-    width: 100%;
-}
+        &--field {
+            margin-top: $spacing-36;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+    }
 
-.back {
-    @include button-base;
-    border: 1px solid $secondary-color !important;
-    color: $primary-color !important;
-}
+    &__button {
+        display: flex;
+        justify-content: space-between;
+        margin-top: $spacing-20;
+        width: 100%;
 
-.send {
-    width: $button-width;
-    height: $button-height;
-    background-color: $primary-color !important;
-    border-radius: $border-radius;
-    color: white !important;
-    font-size: $text-size-14;
-    transition: 0.5s ease;
-}
+        &--back {
+            @include button-base();
+            border: 1px solid $secondary-color !important;
+            color: $primary-color !important;
+        }
 
-.send:hover {
-    background-color: $hover-color !important;
+        &--send {
+            @include button-base();
+            background-color: $primary-color !important;
+            color: $white-color !important;
+            transition: 0.5s ease;
+
+            &:hover {
+                background-color: $hover-color !important;
+            }
+        }
+    }
 }
 
 :host ::ng-deep .mdc-text-field--outlined {
@@ -103,11 +89,64 @@ app-form-field, app-password-field {
 ::ng-deep .mdc-notched-outline > * {
     border-color: $secondary-color !important;
 }
-  
+
 ::ng-deep .mdc-text-field--focused .mdc-notched-outline > * {
     border-color: $primary-color !important;
 }
-  
+
 ::ng-deep .mdc-text-field--invalid .mdc-notched-outline > * {
     border-color: red !important;
+}
+
+@media screen and (max-width: 630px) {
+    .back-login__top {
+        margin-right: 238px;
+    }
+    .signup__text{
+        margin-bottom: 0;
+        margin-top: $spacing-8;
+    }
+    .signup__form {
+        width: 324px;
+
+            &--field {
+                margin-top: $spacing-28;
+            }
+    }
+    .signup__button {
+
+        &--back, &--send {
+            width: $button-width-630;
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .back-login{
+        &__top {
+            margin-right: 148px;
+        }
+        &__text {
+            font-size: $text-size-18;
+        }
+    }
+    .signup__text{
+        font-size: $text-size-14;
+    }
+    .signup__form {
+        width: 200px;
+
+            &--field {
+                margin-top: $spacing-28;
+            }
+    }
+    .signup__button {
+        &--back, &--send {
+            width: $button-width-400;
+        }
+    }
+    .mat-mdc-form-field:not(.mat-form-field-disabled) .mat-mdc-floating-label .mdc-floating-label {
+        font-size: $text-size-12 !important;
+        margin-bottom: $spacing-8 !important;
+    }
 }
