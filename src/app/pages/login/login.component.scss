@@ -1,74 +1,86 @@
-.login-container {
-  max-width: 400px;
-  margin: auto;
-  padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+@import 'src/assets/variables';
 
-  .login-image {
+@import 'src/assets/variables';
+
+.login {
+  &__container {
+    max-width: 400px;
+    margin: auto;
+    padding: $spacing-20;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__image {
     max-width: 100%;
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: $spacing-20;
   }
 
-  mat-form-field {
-    width: 100%; 
-    margin: 15px;
+  &__form-field {
+    width: 100%;
+    margin: $spacing-14;
+    
+    mat-form-field {
+      width: 100%; 
+    }
   }
 
-  .login-button {
-    background-color: #65558f;
-    color: #FFFFFF;
+  &__button {
+    background-color: $primary-color;
+    color: $white-color;
     border: none;
-    padding: 10px 15px;
+    padding: $spacing-16 $spacing-20;
     cursor: pointer;
-    font-size: 16px;
-    border-radius: 25px;
+    font-size: $text-size-16;
+    border-radius: $border-radius;
     transition: background-color 0.3s;
     width: 100%;
-    margin: 10px;
+    margin: $spacing-14;
 
     &:hover {
-      background-color: #FFFFFF;
-      border: 2px solid #65558f;
-      color: #65558f;
+      background-color: $white-color;
+      border: 2px solid $primary-color;
+      color: $primary-color;
     }
   }
 
-  .forgot-password-button {
+  &__forgot-password-button {
     background-color: transparent;
-    border: 2px solid #65558f;
-    color: #65558f;
-    padding: 10px 15px;
-    margin: 10px;
-    border-radius: 25px;
-    width: 100%; 
+    border: 2px solid $primary-color;
+    color: $primary-color;
+    padding: $spacing-16 $spacing-20;
+    margin: $spacing-14;
+    border-radius: $border-radius;
+    width: 100%;
 
     &:hover {
-      background-color: #65558f;
-      color: #FFFFFF;
+      background-color: $primary-color;
+      color: $white-color;
     }
   }
 
-  .login-footer {
+  &__footer {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-top: 10px;
-    
+    margin-top: $spacing-14;
 
     mat-checkbox {
-      margin: 15px;
+      margin: $spacing-14;
     }
 
-    .register-link {
-      color: #65558f;
+    &__register-link {
+      color: $primary-color;
       background-color: transparent;
       text-decoration: none;
       cursor: pointer;
+      display: flex;
+    flex-direction: column;
+    align-items: center;
       
 
       &:hover {
@@ -83,16 +95,16 @@
   align-items: center;
 
   button {
-    margin-left: -30px;
-    color: #65558f;
+    margin-left: -$spacing-28;
+    color: $primary-color;
   }
 }
 
 .register-button {
-  color: #65558f;
+  color: $primary-color;
   text-decoration: none;
   cursor: pointer;
-  margin: 10px;
+  margin: $spacing-14;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
