@@ -6,15 +6,15 @@ import { CanActivate, Router } from '@angular/router';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router) {}
+  public constructor(private router: Router) {}
 
-  canActivate(): boolean {
-    const token = localStorage.getItem('authToken');  // Aqui, verificamos se há um token de autenticação
+  public canActivate(): boolean {
+    const token = localStorage.getItem('authToken');  
 
     if (token) {
-      return true;  // Se houver token, o usuário está autenticado
+      return true; 
     } else {
-      this.router.navigate(['/login']);  // Redireciona para a página de login se não estiver autenticado
+      this.router.navigate(['/login']);  
       return false;
     }
   }
