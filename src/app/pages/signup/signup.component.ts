@@ -38,6 +38,8 @@ export class SignupComponent implements OnInit {
   }
 
   /**
+   * It checks the errors in the control and returns the appropriate message based on the control's validation status.
+   * 
    * @param controlName - The name of the form control (e.g: 'nameFormControl')
    * @returns The corresponding error message for the control's error
    */
@@ -48,7 +50,7 @@ export class SignupComponent implements OnInit {
       nameFormControl: {
         required: 'O nome completo é obrigatório.',
         pattern: 'O nome informado é inválido.',
-        noWhiteSpace: 'O nome não deve conter espaços em branco.'
+        whitespace: 'O nome não deve conter espaços em branco.'
       },
       emailFormControl: {
         required: 'O e-mail é obrigatório.',
@@ -87,10 +89,24 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  //TODO:
+  /**
+   * Verifies whether the form control is invalid by checking if the control is dirty or touched and contains validation errors
+   * 
+   * @param controlName The name of the form control
+   * @returns 'true' if the control is invalid and has been touched or is dirty, otherwise 'false'
+   */
+  public isControlInvalid(controlName: string): boolean {
+    const control = this.signupForm.get(controlName);
+    return !!(control?.invalid && (control?.dirty || control?.touched));
+  }
+
   /**
    * Submits the signup form
    * If the form is valid, a success message is displayed
+   * 
+   * TODO: 
+   * Implement API integration to save the user's signup data.
+   * Once the form is submitted, send the form values (name, email, password) to the backend API for storage
    */
   public onSubmit() {
     if (this.signupForm.valid) {

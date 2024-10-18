@@ -2,6 +2,8 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export class SignupValidators {
   /**
+   * Custom Validator to form-fields, check if the value has white space on it.
+   * 
    * @param control - The form control to validate
    * @returns ValidationErrors if the value is only white space; otherwise null
    */
@@ -12,6 +14,8 @@ export class SignupValidators {
   }
 
   /**
+   * Custom Validator to check if the password and confirm password fields match.
+   * 
    * @param control - The form control to validate
    * @returns ValidationErrors if the passwords do not match; otherwise null
    */

@@ -17,7 +17,7 @@
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="signup__form--field">
                     <mat-label class="signup__form--field--label">Nome</mat-label>
                     <input matInput type="text" formControlName="nameFormControl" [required]="false" class="signup__form--field--input">
-                    <mat-error *ngIf="signupForm.get('nameFormControl')?.invalid && (signupForm.get('nameFormControl')?.dirty || signupForm.get('nameFormControl')?.touched)" class="signup__form--field--error">
+                    <mat-error *ngIf="isControlInvalid('nameFormControl')" class="signup__form--field--error">
                         {{ getErrorMessage('nameFormControl') }}
                     </mat-error>
                 </mat-form-field>
@@ -25,7 +25,7 @@
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="signup__form--field">
                     <mat-label class="signup__form--field--label">E-mail</mat-label>
                     <input matInput type="email" formControlName="emailFormControl" [required]="false" class="signup__form--field--input">
-                    <mat-error *ngIf="signupForm.get('emailFormControl')?.invalid && (signupForm.get('emailFormControl')?.dirty || signupForm.get('emailFormControl')?.touched)" class="signup__form--field--error">
+                    <mat-error *ngIf="isControlInvalid('emailFormControl')" class="signup__form--field--error">
                         {{ getErrorMessage('emailFormControl') }}
                     </mat-error>
                 </mat-form-field>
@@ -36,7 +36,7 @@
                     <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-pressed]="hidePassword">
                       <mat-icon class="signup__form--field--icon">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
-                    <mat-error *ngIf="signupForm.get('passwordFormControl')?.invalid && (signupForm.get('passwordFormControl')?.dirty || signupForm.get('passwordFormControl')?.touched)" class="signup__form--field--error">
+                    <mat-error *ngIf="isControlInvalid('passwordFormControl')" class="signup__form--field--error">
                         {{ getErrorMessage('passwordFormControl') }}
                     </mat-error>
                   </mat-form-field>
@@ -47,7 +47,7 @@
                     <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-pressed]="hideConfirmPassword">
                       <mat-icon class="signup__form--field--icon">{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
-                    <mat-error *ngIf="signupForm.get('confirmPasswordFormControl')?.invalid && (signupForm.get('confirmPasswordFormControl')?.dirty || signupForm.get('confirmPasswordFormControl')?.touched)" class="signup__form--field--error">
+                    <mat-error *ngIf="isControlInvalid('confirmPasswordFormControl')" class="signup__form--field--error">
                         {{ getErrorMessage('confirmPasswordFormControl') }}
                     </mat-error>
                   </mat-form-field>
