@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
   /**
    * Initializes the component. Checks for saved email in localStorage.
    */
-  public ngOnInit() {
+  public ngOnInit(): void {
     const savedEmail = localStorage.getItem('rememberMe');
     if (savedEmail) {
       this.loginForm.patchValue({ email: savedEmail, rememberMe: true });
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
   /**
    * Validates the email field and sets an error message if invalid.
    */
-  public validateEmail() {
+  public validateEmail(): void {
     const emailControl = this.loginForm.get('email');
     if (emailControl?.invalid) {
       this.emailError = 'E-mail inválido. O e-mail deve seguir o formato: exemplo@dominio.com';
@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit {
   /**
    * Validates the password field and sets an error message if invalid.
    */
-  public validatePassword() {
+  public validatePassword(): void {
     const passwordControl = this.loginForm.get('password');
     if (passwordControl?.invalid) {
       this.passwordError = 'A senha possui mínimo de 8 dígitos. Tente novamente';
@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit {
   /**
    * Handles the login process, saving the email in localStorage if necessary.
    */
-  public login() {
+  public login(): void {
     if (this.loginForm.valid) {
       const { email, rememberMe } = this.loginForm.value; 
 
@@ -108,14 +108,14 @@ export class LoginComponent implements OnInit {
   /**
    * Navigates to the registration page.
    */
-  public navigateToRegister() {
+  public navigateToRegister(): void {
     alert('pagina de cadastro');
   }
 
   /**
    * Navigates to the password recovery page.
    */
-  public forgotPassword() {
+  public forgotPassword(): void {
     alert('pagina de recuperar a senha');
   }
 }
