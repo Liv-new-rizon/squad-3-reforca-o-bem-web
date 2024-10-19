@@ -38,6 +38,11 @@ export class LoginComponent implements OnInit {
   public loginError = '';
 
   /**
+   * Flag for showing/hiding password.
+   */
+  public hide = true; // Adicionando a propriedade hide
+
+  /**
    * @param fb - Form builder service to create and manage the form
    * @param router - Service for navigation
    */
@@ -117,6 +122,13 @@ export class LoginComponent implements OnInit {
    */
   public forgotPassword(): void {
     alert('pagina de recuperar a senha');
+  }
+
+  /**
+   * Toggles the visibility of the password.
+   */
+  public clickEvent(event: MouseEvent): void {
+    this.hide = !this.hide; // Alterna o valor de hide
   }
 }
 

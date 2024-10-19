@@ -1,7 +1,5 @@
 @import 'src/assets/variables';
 
-@import 'src/assets/variables';
-
 .login {
   &__container {
     max-width: 400px;
@@ -23,9 +21,9 @@
   &__form-field {
     width: 100%;
     margin: $spacing-14;
-    
+
     mat-form-field {
-      width: 100%; 
+      width: 100%;
     }
   }
 
