@@ -6,15 +6,20 @@
 
     <form [formGroup]="loginForm" (ngSubmit)="login()">
 
-        <mat-form-field appearance="fill" class="login__form-field">
+        <mat-form-field appearance="outline" class="login__form-field">
             <mat-label>E-mail</mat-label>
             <input matInput formControlName="email" (blur)="validateEmail()" />
             <mat-error *ngIf="emailError">{{ emailError }}</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="password-field" class="login__form-field">
+        <mat-form-field appearance="outline" class="login__form-field">
             <mat-label>Senha</mat-label>
-            <input matInput type="password" formControlName="password" (blur)="validatePassword()" />
+            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password"
+                (blur)="validatePassword()" />
+            <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
             <mat-error *ngIf="passwordError">{{ passwordError }}</mat-error>
         </mat-form-field>
 
