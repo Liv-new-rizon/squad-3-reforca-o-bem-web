@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'; 
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 /**
  * @component LoginComponent
- * Componente responsável pela tela de login da aplicação.
+ * Component responsible for the login screen of the application.
  */
 @Component({
   selector: 'app-login',
@@ -13,41 +13,33 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   /**
-   * Formulário de login.
-   * @type {FormGroup}
+   * Login form.
    */
   public loginForm: FormGroup;
 
   /**
-   * Mensagem de erro para o campo de e-mail.
-   * @type {string}
+   * Error message for the email field.
    */
   public emailError = '';
 
   /**
-   * Mensagem de erro para o campo de senha.
-   * @type {string}
+   * Error message for the password field.
    */
   public passwordError = '';
 
   /**
-   * Indicador de e-mail não registrado.
-   * @type {boolean}
+   * Flag indicating if the email is not registered.
    */
   public emailNotRegistered = false;
 
   /**
-   * Mensagem de erro geral para o login.
-   * @type {string}
+   * General error message for login.
    */
   public loginError = '';
 
   /**
-   * Construtor do componente LoginComponent.
-   * Inicializa o formulário e as validações.
-   * 
-   * @param {Router} router Serviço de roteamento para navegação.
-   * @param {FormBuilder} fb Serviço para criar e gerenciar o formulário.
+   * @param fb - Form builder service to create and manage the form
+   * @param router - Service for navigation
    */
   public constructor(private router: Router, private fb: FormBuilder) {
     this.loginForm = this.fb.group({
@@ -64,12 +56,9 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-   * Inicializa o componente. Verifica se há um e-mail salvo no localStorage
-   * e preenche o campo de e-mail se encontrado.
-   * 
-   * @returns {void}
+   * Initializes the component. Checks for saved email in localStorage.
    */
-  public ngOnInit(): void {
+  public ngOnInit() {
     const savedEmail = localStorage.getItem('rememberMe');
     if (savedEmail) {
       this.loginForm.patchValue({ email: savedEmail, rememberMe: true });
@@ -77,11 +66,9 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-   * Valida o campo de e-mail. Define uma mensagem de erro se o e-mail for inválido.
-   * 
-   * @returns {void}
+   * Validates the email field and sets an error message if invalid.
    */
-  public validateEmail(): void {
+  public validateEmail() {
     const emailControl = this.loginForm.get('email');
     if (emailControl?.invalid) {
       this.emailError = 'E-mail inválido. O e-mail deve seguir o formato: exemplo@dominio.com';
@@ -92,11 +79,9 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-   * Valida o campo de senha. Define uma mensagem de erro se a senha for inválida.
-   * 
-   * @returns {void}
+   * Validates the password field and sets an error message if invalid.
    */
-  public validatePassword(): void {
+  public validatePassword() {
     const passwordControl = this.loginForm.get('password');
     if (passwordControl?.invalid) {
       this.passwordError = 'A senha possui mínimo de 8 dígitos. Tente novamente';
@@ -106,12 +91,9 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-   * Realiza o login quando o formulário é enviado. Salva o e-mail no localStorage 
-   * se a opção "Lembrar de mim" estiver selecionada.
-   * 
-   * @returns {void}
+   * Handles the login process, saving the email in localStorage if necessary.
    */
-  public login(): void {
+  public login() {
     if (this.loginForm.valid) {
       const { email, rememberMe } = this.loginForm.value; 
 
@@ -124,25 +106,17 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-   * Navega para a página de cadastro de novos usuários.
-   * Exibe um alerta no momento, mas pode ser alterado para navegação futura.
-   * 
-   * @returns {void}
+   * Navigates to the registration page.
    */
-  public navigateToRegister(): void {
+  public navigateToRegister() {
     alert('pagina de cadastro');
-    // this.router.navigate(['/']);
   }
 
   /**
-   * Navega para a página de recuperação de senha.
-   * Exibe um alerta no momento, mas pode ser alterado para navegação futura.
-   * 
-   * @returns {void}
+   * Navigates to the password recovery page.
    */
-  public forgotPassword(): void {
+  public forgotPassword() {
     alert('pagina de recuperar a senha');
-    // this.router.navigate(['/']);
   }
 }
 

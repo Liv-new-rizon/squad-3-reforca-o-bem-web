@@ -13,12 +13,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 
-
-
-const routes = [
-  { path: '', component: LoginComponent },
-];
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +22,6 @@ const routes = [
   imports: [
     BrowserModule,
     FormsModule,
-    RouterModule.forRoot(routes),
     AppRoutingModule, 
     MatFormFieldModule,
     MatInputModule,
