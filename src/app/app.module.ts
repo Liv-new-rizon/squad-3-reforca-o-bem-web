@@ -19,12 +19,13 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { DialogComponent } from './theme/components/dialog/dialog.component';
 import { DialogService } from './core/services/dialog.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,   
     SignupComponent,  
-    DialogComponent   
+    DialogComponent 
   ],
   imports: [
     BrowserModule,
