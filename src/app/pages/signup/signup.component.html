@@ -1,7 +1,7 @@
 <main>
     <section class="back-login">
         <div class="back-login__top">
-            <mat-icon fontIcon="west" class="back-login__west"></mat-icon>
+            <mat-icon fontIcon="west" class="back-login__west" (click)="navigateToLogin()"></mat-icon>
             <p class="back-login__text">Cadastro</p>
         </div>
     </section>
@@ -54,7 +54,7 @@
             </div>
 
             <div class="signup__button">
-                <button mat-stroked-button class="signup__button--back">Voltar</button>
+                <button mat-stroked-button class="signup__button--back" (click)="navigateToLogin()">Voltar</button>
                 <button mat-flat-button class="signup__button--send" (click)="onSubmit()">Enviar</button>
             </div>
         </div>

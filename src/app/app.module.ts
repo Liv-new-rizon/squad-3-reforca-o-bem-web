@@ -18,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SignupComponent } from './pages/signup/signup.component';
 import { DialogComponent } from './theme/components/dialog/dialog.component';
 import { DialogService } from './core/services/dialog.service';
+import { StudentRegistrationComponent } from './pages/student-registration/student-registration.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { DialogService } from './core/services/dialog.service';
     AppComponent,
     LoginComponent,   
     SignupComponent,  
-    DialogComponent 
+    DialogComponent, 
+    StudentRegistrationComponent 
   ],
   imports: [
     BrowserModule,

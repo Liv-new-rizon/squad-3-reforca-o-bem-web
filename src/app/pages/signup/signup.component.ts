@@ -4,6 +4,7 @@ import { DialogService } from '../../core/services/dialog.service';
 import { SignupValidators } from '../../core/validators/signup-validators';
 import { NAME_PATTERN, EMAIL_PATTERN } from '../../core/constants/regex-patterns';
 import { TObject } from '../../core/models/TObject';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -15,7 +16,7 @@ export class SignupComponent implements OnInit {
   public hidePassword = true;
   public hideConfirmPassword = true;
   
-  public constructor(private fb: FormBuilder, private readonly dialogService: DialogService) {
+  public constructor(private fb: FormBuilder, private readonly dialogService: DialogService, private router: Router) {
     this.signupForm = this.fb.group({
       nameFormControl: new FormControl<string>('', [
         Validators.required,
@@ -122,6 +123,15 @@ export class SignupComponent implements OnInit {
     this.dialogService.openInfoDialog({
       title: 'Cadastro prévio realizado com sucesso',
       buttonText: 'Fechar'
+    }).subscribe(() => {
+      this.navigateToLogin();
     });
+  }
+
+  /**
+   * Navigates to the login page.
+   */
+  public navigateToLogin() {
+    this.router.navigate(['/login'])
   }
 }

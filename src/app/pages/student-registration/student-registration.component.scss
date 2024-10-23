@@ -1,0 +1,22 @@
+@import 'src/assets/variables';
+
+.back-login {
+    display: flex;
+    height: $spacing-64;
+    align-items: center;
+
+    &__top {
+        display: flex;
+        align-items: start;
+        margin-left: 135px;
+    }
+
+    &__west {
+        cursor: pointer;
+    }
+
+    &__text {
+        font-size: $text-size-22;
+        margin-left: $spacing-16;
+    }
+}
