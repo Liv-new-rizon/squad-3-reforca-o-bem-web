@@ -9,7 +9,10 @@ import { StudentRegistrationComponent } from './pages/student-registration/stude
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },  
-  { path: 'student-registration', component: StudentRegistrationComponent },
+  { path: 'student-registration', 
+    component: StudentRegistrationComponent,
+    canActivate: [AuthGuard]
+  },
   { 
     path: 'dashboard', 
     component: DashboardComponent,
