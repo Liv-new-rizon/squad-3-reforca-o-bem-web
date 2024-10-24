@@ -1,8 +1,22 @@
 <main>
-    <section class="back-login">
-        <div class="back-login__top">
-            <mat-icon fontIcon="west" class="back-login__west" (click)="navigateToLogin()"></mat-icon>
-            <p class="back-login__text">Cadastro Aluno</p>
+
+    <section class="student-registration__back">
+        <div class="student-registration__top">
+            <mat-icon fontIcon="west" class="student-registration__west" (click)="navigateToLogin()"></mat-icon>
+            <p class="student-registration__text">Cadastro Aluno</p>
         </div>
     </section>
+    <h2>Olá, (nome do aluno)</h2>
+    <h3>Conta pra gente um pouco mais sobre você:</h3>
+    <form [formGroup]="studentForm" (ngSubmit)="registerStudent()" class="student-registration__form">
+
+
+        <mat-form-field appearance="outline" class="student-registration__form-field">
+            <mat-label>Data de nascimento</mat-label>
+            <input matInput [formControl]="dateControl" (input)="applyDateMask($event)" placeholder="Dia/Mês/Ano">
+            <mat-error *ngIf="dateControl.invalid">{{ getErrorMessage() }}</mat-error>
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="primary" [disabled]="!studentForm.valid">Registrar</button>
+    </form>
 </main>
