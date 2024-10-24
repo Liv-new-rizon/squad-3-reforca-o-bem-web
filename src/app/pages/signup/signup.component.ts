@@ -5,6 +5,7 @@ import { SignupValidators } from '../../core/validators/signup-validators';
 import { NAME_PATTERN, EMAIL_PATTERN } from '../../core/constants/regex-patterns';
 import { TObject } from '../../core/models/TObject';
 import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signup',
@@ -123,7 +124,7 @@ export class SignupComponent implements OnInit {
     this.dialogService.openInfoDialog({
       title: 'Cadastro prévio realizado com sucesso',
       buttonText: 'Fechar'
-    }).subscribe(() => {
+    }).pipe(take(1)).subscribe(() => {
       this.navigateToLogin();
     });
   }
