@@ -107,14 +107,22 @@ export class LoginComponent implements OnInit {
       } else {
         localStorage.removeItem('rememberMe');
       }
+      this.navigateToStudentRegistration();
     }
   }
 
   /**
-   * Navigates to the registration page.
+   * Navigates to the signup page.
    */
-  public navigateToRegister(): void {
-    alert('pagina de cadastro');
+  public navigateToSignup(): void {
+    this.router.navigate(['/signup']);
+  }
+
+  /**
+   * Navigates to the student registration page.
+   */
+  public navigateToStudentRegistration(): void {
+    this.router.navigate(['/student-registration']);
   }
 
   /**
