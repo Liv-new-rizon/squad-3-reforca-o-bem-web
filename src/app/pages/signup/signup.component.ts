@@ -6,6 +6,7 @@ import { NAME_PATTERN, EMAIL_PATTERN } from '../../core/constants/regex-patterns
 import { TObject } from '../../core/models/TObject';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
+import { SignupService } from 'src/app/core/services/signup.service';
 
 @Component({
   selector: 'app-signup',
@@ -17,7 +18,12 @@ export class SignupComponent implements OnInit {
   public hidePassword = true;
   public hideConfirmPassword = true;
   
-  public constructor(private fb: FormBuilder, private readonly dialogService: DialogService, private router: Router) {
+  public constructor(
+    private fb: FormBuilder, 
+    private readonly dialogService: DialogService, 
+    private router: Router, 
+    private signupService: SignupService,
+  ) {
     this.signupForm = this.fb.group({
       nameFormControl: new FormControl<string>('', [
         Validators.required,
@@ -112,7 +118,16 @@ export class SignupComponent implements OnInit {
    */
   public onSubmit() {
     if (this.signupForm.valid) {
-      this.showSuccessMessage();
+      const { nameFormControl, emailFormControl, passwordFormControl } = this.signupForm.value;
+
+      this.signupService.signupUser({
+        name: nameFormControl,
+        email: emailFormControl,
+        password: passwordFormControl
+      }).pipe(take(1)).subscribe({
+        next: () => this.showSuccessMessage(),
+        error: () => this.handleError()
+      });
     }
   }
 
@@ -126,6 +141,17 @@ export class SignupComponent implements OnInit {
       buttonText: 'Fechar'
     }).pipe(take(1)).subscribe(() => {
       this.navigateToLogin();
+    });
+  }
+
+  /**
+   * Displays a error message using the dialog service
+   * The message indicates that the signup had an error
+   */
+  private handleError() {
+    this.dialogService.openInfoDialog({
+      title: 'Erro no cadastro',
+      buttonText: 'Fechar'
     });
   }
 

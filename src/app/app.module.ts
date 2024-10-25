@@ -10,11 +10,12 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { LoginComponent } from './pages/login/login.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { DialogComponent } from './theme/components/dialog/dialog.component';
 import { DialogService } from './core/services/dialog.service';
@@ -40,7 +41,8 @@ import { StudentRegistrationComponent } from './pages/student-registration/stude
     FormsModule,
     MatButtonModule,
     MatCheckboxModule,  
-    MatDialogModule     
+    MatDialogModule,
+    HttpClientModule
   ],
   providers: [DialogService],
   bootstrap: [AppComponent]
