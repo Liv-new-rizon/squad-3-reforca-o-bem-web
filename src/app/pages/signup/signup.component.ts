@@ -111,23 +111,22 @@ export class SignupComponent implements OnInit {
   /**
    * Submits the signup form
    * If the form is valid, a success message is displayed
-   * 
-   * TODO: 
-   * Implement API integration to save the user's signup data.
-   * Once the form is submitted, send the form values (name, email, password) to the backend API for storage
    */
-  public onSubmit() {
+  public async onSubmit() {
     if (this.signupForm.valid) {
-      const { nameFormControl, emailFormControl, passwordFormControl } = this.signupForm.value;
+      const { nameFormControl, emailFormControl, passwordFormControl, confirmPasswordFormControl } = this.signupForm.value;
 
-      this.signupService.signupUser({
-        name: nameFormControl,
-        email: emailFormControl,
-        password: passwordFormControl
-      }).pipe(take(1)).subscribe({
-        next: () => this.showSuccessMessage(),
-        error: () => this.handleError()
-      });
+      try {
+        await this.signupService.signupUser({
+          name: nameFormControl,
+          email: emailFormControl,
+          password: passwordFormControl,
+          confirmPassword: confirmPasswordFormControl
+        });
+        this.showSuccessMessage();
+      } catch (error) {
+        this.handleError();
+      }
     }
   }
 
