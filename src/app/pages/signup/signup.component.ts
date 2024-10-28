@@ -62,7 +62,8 @@ export class SignupComponent implements OnInit {
       },
       emailFormControl: {
         required: 'O e-mail é obrigatório.',
-        pattern: 'O e-mail informado é inválido.'
+        pattern: 'O e-mail informado é inválido.',
+        emailAlreadyRegistered: 'E-mail já cadastrado.'
       },
       passwordFormControl: {
         required: 'A senha é obrigatória.',
@@ -113,22 +114,30 @@ export class SignupComponent implements OnInit {
    * If the form is valid, a success message is displayed
    */
   public async onSubmit() {
-    if (this.signupForm.valid) {
-      const { nameFormControl, emailFormControl, passwordFormControl, confirmPasswordFormControl } = this.signupForm.value;
-
-      try {
-        await this.signupService.signupUser({
-          name: nameFormControl,
-          email: emailFormControl,
-          password: passwordFormControl,
-          confirmPassword: confirmPasswordFormControl
-        });
-        this.showSuccessMessage();
-      } catch (error) {
+    if (this.signupForm.invalid) {
+      this.signupForm.markAllAsTouched();
+      return;
+    }
+    
+    const { nameFormControl, emailFormControl, passwordFormControl, confirmPasswordFormControl } = this.signupForm.value;
+  
+    try {
+      await this.signupService.signupUser({
+        name: nameFormControl,
+        email: emailFormControl,
+        password: passwordFormControl,
+        confirmPassword: confirmPasswordFormControl
+      });
+      this.showSuccessMessage();
+    } catch (error) {
+      if (error.status === 400) {
+        this.signupForm.get('emailFormControl')?.setErrors({ emailAlreadyRegistered: true });
+      } else {
         this.handleError();
       }
     }
   }
+  
 
   /**
    * Displays a success message using the dialog service
