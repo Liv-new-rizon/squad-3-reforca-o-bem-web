@@ -1,10 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-
-export interface DialogData {
-  title: string;
-  buttonText: string;
-}
+import { DialogDataInterface } from 'src/app/core/models/interfaces/dialog-data.interface';
 
 @Component({
   selector: 'app-dialog',
@@ -14,6 +10,6 @@ export interface DialogData {
 export class DialogComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: DialogDataInterface
   ) {}
 }

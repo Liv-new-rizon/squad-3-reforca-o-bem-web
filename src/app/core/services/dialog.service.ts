@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent, DialogData } from '../../theme/components/dialog/dialog.component';
+import { DialogComponent } from '../../theme/components/dialog/dialog.component';
+import { DialogDataInterface } from '../models/interfaces/dialog-data.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Observable } from 'rxjs';
 export class DialogService {
   public constructor(private dialog: MatDialog) {}
 
-  openInfoDialog(config: DialogData): Observable<boolean> {
+  openInfoDialog(config: DialogDataInterface): Observable<boolean> {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: config
     });
