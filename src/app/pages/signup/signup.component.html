@@ -16,46 +16,46 @@
             <div class="signup__form">
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="signup__form--field">
                     <mat-label class="signup__form--field--label">Nome</mat-label>
-                    <input matInput type="text" formControlName="nameFormControl" [required]="false" class="signup__form--field--input">
-                    <mat-error *ngIf="isControlInvalid('nameFormControl')" class="signup__form--field--error">
-                        {{ getErrorMessage('nameFormControl') }}
+                    <input matInput type="text" formControlName="name" [required]="false" class="signup__form--field--input">
+                    <mat-error *ngIf="isControlInvalid('name')" class="signup__form--field--error">
+                        {{ getErrorMessage('name') }}
                     </mat-error>
                 </mat-form-field>
 
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="signup__form--field">
                     <mat-label class="signup__form--field--label">E-mail</mat-label>
-                    <input matInput type="email" formControlName="emailFormControl" [required]="false" class="signup__form--field--input">
-                    <mat-error *ngIf="isControlInvalid('emailFormControl')" class="signup__form--field--error">
-                        {{ getErrorMessage('emailFormControl') }}
+                    <input matInput type="email" formControlName="email" [required]="false" class="signup__form--field--input">
+                    <mat-error *ngIf="isControlInvalid('email')" class="signup__form--field--error">
+                        {{ getErrorMessage('email') }}
                     </mat-error>
                 </mat-form-field>
 
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="signup__form--field">
                     <mat-label class="signup__form--field--label">Senha</mat-label>
-                    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="passwordFormControl" required="false" class="signup__form--field--input">
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required="false" class="signup__form--field--input">
                     <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-pressed]="hidePassword">
                       <mat-icon class="signup__form--field--icon">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
-                    <mat-error *ngIf="isControlInvalid('passwordFormControl')" class="signup__form--field--error">
-                        {{ getErrorMessage('passwordFormControl') }}
+                    <mat-error *ngIf="isControlInvalid('password')" class="signup__form--field--error">
+                        {{ getErrorMessage('password') }}
                     </mat-error>
                   </mat-form-field>
 
                   <mat-form-field subscriptSizing="dynamic" appearance="outline" class="signup__form--field">
                     <mat-label class="signup__form--field--label">Confirmar senha</mat-label>
-                    <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPasswordFormControl" required="false" class="signup__form--field--input">
+                    <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" required="false" class="signup__form--field--input">
                     <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-pressed]="hideConfirmPassword">
                       <mat-icon class="signup__form--field--icon">{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
-                    <mat-error *ngIf="isControlInvalid('confirmPasswordFormControl')" class="signup__form--field--error">
-                        {{ getErrorMessage('confirmPasswordFormControl') }}
+                    <mat-error *ngIf="isControlInvalid('confirmPassword')" class="signup__form--field--error">
+                        {{ getErrorMessage('confirmPassword') }}
                     </mat-error>
                   </mat-form-field>
             </div>
 
             <div class="signup__button">
                 <button mat-stroked-button class="signup__button--back" (click)="navigateToLogin()">Voltar</button>
-                <button mat-flat-button class="signup__button--send" (click)="onSubmit()">Enviar</button>
+                <button mat-flat-button class="signup__button--send" (click)="onSubmit()" [disabled]="signupForm.invalid" [ngClass]="{'disabled': signupForm.invalid}">Enviar</button>
             </div>
         </div>
     </section>

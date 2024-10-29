@@ -24,8 +24,8 @@ export class SignupValidators {
     if (!form) {
       return null;
     }
-    const password = form.get('passwordFormControl');
-    const confirmPassword = form.get('confirmPasswordFormControl');
+    const password = form.get('password');
+    const confirmPassword = form.get('confirmPassword');
   
     if (confirmPassword?.value && password?.value !== confirmPassword.value) {
       return { passwordsNotMatch: true };

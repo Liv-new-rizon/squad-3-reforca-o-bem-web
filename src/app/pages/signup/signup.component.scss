@@ -14,7 +14,7 @@
 
     &__top {
         display: flex;
-        align-items: start;
+        align-items: flex-start;
         margin-left: 135px;
     }
 
@@ -80,6 +80,10 @@
 
             &:hover {
                 background-color: $hover-color !important;
+            }
+
+            &.disabled {
+                background-color: $secondary-color !important;
             }
         }
     }

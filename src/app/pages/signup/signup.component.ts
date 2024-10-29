@@ -3,9 +3,10 @@ import { FormControl, Validators, AbstractControl, ValidationErrors, FormGroup, 
 import { DialogService } from '../../core/services/dialog.service';
 import { SignupValidators } from '../../core/validators/signup-validators';
 import { NAME_PATTERN, EMAIL_PATTERN } from '../../core/constants/regex-patterns';
-import { TObject } from '../../core/models/TObject';
+import { TObject } from '../../core/models/interfaces/TObject';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
+import { SignupService } from 'src/app/core/services/signup.service';
 
 @Component({
   selector: 'app-signup',
@@ -17,22 +18,27 @@ export class SignupComponent implements OnInit {
   public hidePassword = true;
   public hideConfirmPassword = true;
   
-  public constructor(private fb: FormBuilder, private readonly dialogService: DialogService, private router: Router) {
+  public constructor(
+    private fb: FormBuilder, 
+    private readonly dialogService: DialogService, 
+    private router: Router, 
+    private signupService: SignupService,
+  ) {
     this.signupForm = this.fb.group({
-      nameFormControl: new FormControl<string>('', [
+      name: new FormControl<string>('', [
         Validators.required,
         Validators.pattern(NAME_PATTERN), 
         SignupValidators.noWhiteSpace
       ]),
-      emailFormControl: new FormControl<string>('', [
+      email: new FormControl<string>('', [
         Validators.required, 
         Validators.pattern(EMAIL_PATTERN)
       ]),
-      passwordFormControl: new FormControl<string>('', [
+      password: new FormControl<string>('', [
         Validators.required, 
         Validators.minLength(8)
       ]),
-      confirmPasswordFormControl: new FormControl<string>('', [
+      confirmPassword: new FormControl<string>('', [
         Validators.required,
         SignupValidators.passwordsMatch
       ]),
@@ -42,27 +48,27 @@ export class SignupComponent implements OnInit {
   /**
    * It checks the errors in the control and returns the appropriate message based on the control's validation status.
    * 
-   * @param controlName - The name of the form control (e.g: 'nameFormControl')
+   * @param controlName - The name of the form control (e.g: 'name')
    * @returns The corresponding error message for the control's error
    */
   public getErrorMessage(controlName: string): string {
     const control = this.signupForm.get(controlName);
     
     const errorMessages: { [key: string]: { [key: string]: string } } = {
-      nameFormControl: {
+      name: {
         required: 'O nome completo é obrigatório.',
         pattern: 'O nome informado é inválido.',
         whitespace: 'O nome não deve conter espaços em branco.'
       },
-      emailFormControl: {
+      email: {
         required: 'O e-mail é obrigatório.',
-        pattern: 'O e-mail informado é inválido.'
+        pattern: 'O e-mail informado é inválido.',
       },
-      passwordFormControl: {
+      password: {
         required: 'A senha é obrigatória.',
         minlength: 'A senha deve ter pelo menos 8 caracteres.'
       },
-      confirmPasswordFormControl: {
+      confirmPassword: {
         required: 'A confirmação da senha é obrigatória.',
         passwordsNotMatch: 'As senhas não correspondem.'
       }
@@ -74,8 +80,8 @@ export class SignupComponent implements OnInit {
       }
     }
 
-    if (controlName === 'confirmPasswordFormControl' && this.signupForm.hasError('passwordsNotMatch')) {
-      return errorMessages['confirmPasswordFormControl']['passwordsNotMatch'];
+    if (controlName === 'confirmPassword' && this.signupForm.hasError('passwordsNotMatch')) {
+      return errorMessages['confirmPassword']['passwordsNotMatch'];
     }
     
     return '';
@@ -86,8 +92,8 @@ export class SignupComponent implements OnInit {
    * Updates the validation for password confirmation when the password field changes
    */
   public ngOnInit() {
-    this.signupForm.get('passwordFormControl')?.valueChanges.subscribe(() => {
-      this.signupForm.get('confirmPasswordFormControl')?.updateValueAndValidity();
+    this.signupForm.get('password')?.valueChanges.subscribe(() => {
+      this.signupForm.get('confirmPassword')?.updateValueAndValidity();
     });
   }
 
@@ -105,17 +111,20 @@ export class SignupComponent implements OnInit {
   /**
    * Submits the signup form
    * If the form is valid, a success message is displayed
-   * 
-   * TODO: 
-   * Implement API integration to save the user's signup data.
-   * Once the form is submitted, send the form values (name, email, password) to the backend API for storage
    */
-  public onSubmit() {
-    if (this.signupForm.valid) {
+  public async onSubmit() {
+    try {
+      await this.signupService.signupUser(this.signupForm.value);
       this.showSuccessMessage();
+    } catch (error) {
+      if (error.status === 400) {
+        this.showErrorMessage('E-mail já cadastrado');
+      } else {
+        this.showErrorMessage('Erro no cadastro');
+      }
     }
   }
-
+  
   /**
    * Displays a success message using the dialog service
    * The message indicates that the signup was successfully completed
@@ -126,6 +135,17 @@ export class SignupComponent implements OnInit {
       buttonText: 'Fechar'
     }).pipe(take(1)).subscribe(() => {
       this.navigateToLogin();
+    });
+  }
+
+  /**
+   * Displays a error message using the dialog service
+   * @param message The message indicating the error
+   */
+  private showErrorMessage(message: string) {
+    this.dialogService.openInfoDialog({
+      title: message,
+      buttonText: 'Fechar'
     });
   }
 
