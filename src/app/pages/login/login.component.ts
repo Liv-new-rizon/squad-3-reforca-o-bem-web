@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core'; 
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { EMAIL_PATTERN } from 'src/app/core/constants/regex-patterns';
+import { DialogService } from 'src/app/core/services/dialog.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 /**
  * @component LoginComponent
@@ -46,11 +49,11 @@ export class LoginComponent implements OnInit {
    * @param fb - Form builder service to create and manage the form
    * @param router - Service for navigation
    */
-  public constructor(private router: Router, private fb: FormBuilder) {
+  public constructor(private router: Router, private fb: FormBuilder, private authService: AuthService, private dialogService: DialogService) {
     this.loginForm = this.fb.group({
       email: new FormControl('', [
         Validators.required, 
-        Validators.email
+        Validators.pattern(EMAIL_PATTERN)
       ]),
       password: new FormControl('', [ 
         Validators.required, 
@@ -76,7 +79,7 @@ export class LoginComponent implements OnInit {
   public validateEmail(): void {
     const emailControl = this.loginForm.get('email');
     if (emailControl?.invalid) {
-      this.emailError = 'E-mail inválido. O e-mail deve seguir o formato: exemplo@dominio.com';
+      this.emailError = 'E-mail inválido.';
       this.emailNotRegistered = false;
     } else {
       this.emailError = '';
@@ -89,7 +92,7 @@ export class LoginComponent implements OnInit {
   public validatePassword(): void {
     const passwordControl = this.loginForm.get('password');
     if (passwordControl?.invalid) {
-      this.passwordError = 'A senha possui mínimo de 8 dígitos. Tente novamente';
+      this.passwordError = 'A senha deve ter pelo menos 8 caracteres.';
     } else {
       this.passwordError = '';
     }
@@ -98,18 +101,35 @@ export class LoginComponent implements OnInit {
   /**
    * Handles the login process, saving the email in localStorage if necessary.
    */
-  public login(): void {
-    if (this.loginForm.valid) {
-      const { email, rememberMe } = this.loginForm.value; 
+  public async login(): Promise<void> {
+    try {
+      const response = await this.authService.loginUser<{ token: string }>(this.loginForm.value);
 
-      if (rememberMe) {
-        localStorage.setItem('rememberMe', email);
-      } else {
-        localStorage.removeItem('rememberMe');
+      if (response?.token) {
+        localStorage.setItem('authToken', response.token);
+
+        if (this.loginForm.value.rememberMe) {
+          localStorage.setItem('rememberMe', this.loginForm.value.email);
+        } else {
+          localStorage.removeItem('rememberMe');
+        }
       }
       this.navigateToStudentRegistration();
-    }
+    } catch (error) {
+      this.showErrorMessage("Conta não encontrada");
+    } 
   }
+
+  /**
+   * Displays a error message using the dialog service
+   * @param message The message indicating the error
+   */
+  private showErrorMessage(message: string): void {
+    this.dialogService.openInfoDialog({
+      title: message,
+      buttonText: 'Fechar'
+    });
+  }  
 
   /**
    * Navigates to the signup page.
@@ -136,7 +156,7 @@ export class LoginComponent implements OnInit {
    * Toggles the visibility of the password.
    */
   public clickEvent(event: MouseEvent): void {
-    this.hide = !this.hide; // Alterna o valor de hide
+    this.hide = !this.hide;
   }
 }
 

@@ -20,6 +20,7 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { DialogComponent } from './theme/components/dialog/dialog.component';
 import { DialogService } from './core/services/dialog.service';
 import { StudentRegistrationComponent } from './pages/student-registration/student-registration.component';
+import { AuthService } from './core/services/auth.service';
 
 
 @NgModule({
@@ -44,7 +45,7 @@ import { StudentRegistrationComponent } from './pages/student-registration/stude
     MatDialogModule,
     HttpClientModule
   ],
-  providers: [DialogService],
+  providers: [DialogService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
