@@ -1,12 +1,13 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
-import { FormControl, Validators, AbstractControl, ValidationErrors, FormGroup, FormBuilder} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
 import { DialogService } from '../../core/services/dialog.service';
 import { SignupValidators } from '../../core/validators/signup-validators';
 import { NAME_PATTERN, EMAIL_PATTERN } from '../../core/constants/regex-patterns';
 import { TObject } from '../../core/models/interfaces/TObject';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { SignupService } from 'src/app/core/services/signup.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { LoadingService } from 'src/app/core/services/loading.service';
 
 @Component({
   selector: 'app-signup',
@@ -22,7 +23,8 @@ export class SignupComponent implements OnInit {
     private fb: FormBuilder, 
     private readonly dialogService: DialogService, 
     private router: Router, 
-    private signupService: SignupService,
+    private authService: AuthService,
+    private loadingService: LoadingService,
   ) {
     this.signupForm = this.fb.group({
       name: new FormControl<string>('', [
@@ -91,7 +93,7 @@ export class SignupComponent implements OnInit {
    * Sets up the component on initialization, including a listener for changes in the password control
    * Updates the validation for password confirmation when the password field changes
    */
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.signupForm.get('password')?.valueChanges.subscribe(() => {
       this.signupForm.get('confirmPassword')?.updateValueAndValidity();
     });
@@ -112,16 +114,18 @@ export class SignupComponent implements OnInit {
    * Submits the signup form
    * If the form is valid, a success message is displayed
    */
-  public async onSubmit() {
+  public async onSubmit(): Promise<void> {
     try {
-      await this.signupService.signupUser(this.signupForm.value);
+      this.loadingService.show();
+      await this.authService.signupUser(this.signupForm.value);
       this.showSuccessMessage();
     } catch (error) {
       if (error.status === 400) {
-        this.showErrorMessage('E-mail já cadastrado');
-      } else {
-        this.showErrorMessage('Erro no cadastro');
+        return this.showErrorMessage(error.error.message);
       }
+      this.showErrorMessage('Erro no cadastro');
+    } finally {
+      this.loadingService.hide();
     }
   }
   
@@ -129,7 +133,7 @@ export class SignupComponent implements OnInit {
    * Displays a success message using the dialog service
    * The message indicates that the signup was successfully completed
    */
-  public showSuccessMessage() {
+  public showSuccessMessage(): void {
     this.dialogService.openInfoDialog({
       title: 'Cadastro prévio realizado com sucesso',
       buttonText: 'Fechar'
@@ -142,7 +146,7 @@ export class SignupComponent implements OnInit {
    * Displays a error message using the dialog service
    * @param message The message indicating the error
    */
-  private showErrorMessage(message: string) {
+  private showErrorMessage(message: string): void {
     this.dialogService.openInfoDialog({
       title: message,
       buttonText: 'Fechar'
@@ -152,7 +156,7 @@ export class SignupComponent implements OnInit {
   /**
    * Navigates to the login page.
    */
-  public navigateToLogin() {
+  public navigateToLogin(): void {
     this.router.navigate(['/login'])
   }
 }

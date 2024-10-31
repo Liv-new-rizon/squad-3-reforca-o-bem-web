@@ -20,9 +20,10 @@ export class AuthGuard implements CanActivate {
    * Redirects to the login page if no token is found.
    */
   public canActivate(): boolean {
-    const token = localStorage.getItem('authToken');
+    const localToken = localStorage.getItem('authToken');
+    const sessionToken = sessionStorage.getItem('authToken');
 
-    if (token) {
+    if (localToken || sessionToken) {
       return true;
     } else {
       this.router.navigate(['/login']);

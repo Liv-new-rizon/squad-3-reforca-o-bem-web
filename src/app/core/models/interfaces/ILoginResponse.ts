@@ -1,0 +1,3 @@
+interface ILoginResponse {
+  token: string;
+}
