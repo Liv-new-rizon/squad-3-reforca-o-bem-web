@@ -118,6 +118,7 @@ export class SignupComponent implements OnInit {
     try {
       this.loadingService.show();
       await this.authService.signupUser(this.signupForm.value);
+      this.showSuccessMessage();
     } catch (error) {
       if (error.status === 400) {
         return this.showErrorMessage(error.error.message);
@@ -125,7 +126,6 @@ export class SignupComponent implements OnInit {
       this.showErrorMessage('Erro no cadastro');
     } finally {
       this.loadingService.hide();
-      this.showSuccessMessage();
     }
   }
   
