@@ -1,5 +1,5 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
-import { FormControl, Validators, AbstractControl, ValidationErrors, FormGroup, FormBuilder} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
 import { DialogService } from '../../core/services/dialog.service';
 import { SignupValidators } from '../../core/validators/signup-validators';
 import { NAME_PATTERN, EMAIL_PATTERN } from '../../core/constants/regex-patterns';
@@ -7,6 +7,7 @@ import { TObject } from '../../core/models/interfaces/TObject';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { LoadingService } from 'src/app/core/services/loading.service';
 
 @Component({
   selector: 'app-signup',
@@ -23,6 +24,7 @@ export class SignupComponent implements OnInit {
     private readonly dialogService: DialogService, 
     private router: Router, 
     private authService: AuthService,
+    private loadingService: LoadingService,
   ) {
     this.signupForm = this.fb.group({
       name: new FormControl<string>('', [
@@ -114,13 +116,16 @@ export class SignupComponent implements OnInit {
    */
   public async onSubmit(): Promise<void> {
     try {
+      this.loadingService.show();
       await this.authService.signupUser(this.signupForm.value);
-      this.showSuccessMessage();
     } catch (error) {
       if (error.status === 400) {
         return this.showErrorMessage(error.error.message);
       }
       this.showErrorMessage('Erro no cadastro');
+    } finally {
+      this.loadingService.hide();
+      this.showSuccessMessage();
     }
   }
   

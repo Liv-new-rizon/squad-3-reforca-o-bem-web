@@ -1,4 +1,3 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_PATH } from 'src/environments/environment';
@@ -19,8 +18,8 @@ export class AuthService {
    * @param data Contains email and password
    * @returns Promise with API response
    */
-  public loginUser<T>(data: ILoginData): Promise<T> {
-    return this.http.post<T>(this.loginUrl, data).toPromise() as Promise<T>;
+  public loginUser<ILoginResponse>(data: ILoginData): Promise<ILoginResponse> {
+    return this.http.post<ILoginResponse>(this.loginUrl, data).toPromise() as Promise<ILoginResponse>;
   }
 
   /**
@@ -28,7 +27,7 @@ export class AuthService {
    * @param data Contains name, email and password
    * @returns Promise with API response
    */
-  public signupUser<T>(data: ISignupData): Promise<T> {
-    return this.http.post<T>(this.signupUrl, data).toPromise() as Promise<T>;
+  public signupUser(data: ISignupData): Promise<object> {
+    return this.http.post<object>(this.signupUrl, data).toPromise() as Promise<object>;
   }
 }

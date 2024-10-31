@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { EMAIL_PATTERN } from 'src/app/core/constants/regex-patterns';
 import { DialogService } from 'src/app/core/services/dialog.service';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { LoadingService } from 'src/app/core/services/loading.service';
 
 /**
  * @component LoginComponent
@@ -49,7 +50,13 @@ export class LoginComponent implements OnInit {
    * @param fb - Form builder service to create and manage the form
    * @param router - Service for navigation
    */
-  public constructor(private router: Router, private fb: FormBuilder, private authService: AuthService, private dialogService: DialogService) {
+  public constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private dialogService: DialogService,
+    private loadingService: LoadingService
+  ) {
     this.loginForm = this.fb.group({
       email: new FormControl('', [
         Validators.required, 
@@ -103,21 +110,20 @@ export class LoginComponent implements OnInit {
    */
   public async login(): Promise<void> {
     try {
+      this.loadingService.show();
       const response = await this.authService.loginUser<{ token: string }>(this.loginForm.value);
 
-      if (response?.token) {
+      if (this.loginForm.value.rememberMe) {
         localStorage.setItem('authToken', response.token);
-
-        if (this.loginForm.value.rememberMe) {
-          localStorage.setItem('rememberMe', this.loginForm.value.email);
-        } else {
-          localStorage.removeItem('rememberMe');
-        }
+      } else {
+        sessionStorage.setItem('authToken', response.token);
       }
       this.navigateToStudentRegistration();
     } catch (error) {
       this.showErrorMessage("Conta não encontrada");
-    } 
+    } finally {
+      this.loadingService.hide();
+    }
   }
 
   /**

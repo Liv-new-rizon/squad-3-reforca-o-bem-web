@@ -11,6 +11,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,7 +22,8 @@ import { DialogComponent } from './theme/components/dialog/dialog.component';
 import { DialogService } from './core/services/dialog.service';
 import { StudentRegistrationComponent } from './pages/student-registration/student-registration.component';
 import { AuthService } from './core/services/auth.service';
-
+import { LoadingComponent } from './theme/components/loading/loading.component';
+import { LoadingService } from './core/services/loading.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { AuthService } from './core/services/auth.service';
     LoginComponent,   
     SignupComponent,  
     DialogComponent, 
-    StudentRegistrationComponent 
+    StudentRegistrationComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
@@ -43,9 +46,10 @@ import { AuthService } from './core/services/auth.service';
     MatButtonModule,
     MatCheckboxModule,  
     MatDialogModule,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule
   ],
-  providers: [DialogService, AuthService],
+  providers: [DialogService, AuthService, LoadingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
