@@ -1,108 +1,112 @@
 @import 'src/assets/variables';
 
+@mixin button-base {
+    width: $button-width;
+    height: $button-height;
+    border-radius: $border-radius-24;
+    font-size: $text-size-14;
+}
+
+.back-home {
+    display: flex;
+    height: $spacing-64;
+    align-items: center;
+
+    &__top {
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        margin-left: 135px;
+    }
+
+    &__west {
+        cursor: pointer;
+    }
+
+    &__text {
+        font-size: $text-size-22;
+        margin-left: $spacing-16;
+    }
+}
+
 .student-registration {
-    &__back {
-        display: flex; /* Flexbox para alinhar itens lado a lado */
-        align-items: center; /* Alinha ícone e texto verticalmente */
-        padding: $spacing-16; /* Espaçamento ao redor da seção */
-        width: 100%; /* Ocupa toda a largura da tela */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-        &__top {
-            display: flex; /* Flexbox para o conteúdo dentro da seção */
-            align-items: center; /* Alinha ícone e texto verticalmente */
-        }
-
-        &__west {
-            cursor: pointer; /* Mão ao passar o mouse */
-            margin-right: $spacing-8; /* Espaçamento entre o ícone e o texto */
-            font-size: $text-size-18; /* Ajuste o tamanho do ícone, se necessário */
-        }
-
-        &__text {
-            font-size: $text-size-26; /* Tamanho do texto */
-            font-weight: 500;
-            margin: 0; /* Peso do texto */
-        }
+    &__text {
+        font-size: $text-size-16;
+        font-weight: 500;
+        text-align: left;
+        width: 100%;
+        margin-top: $spacing-28;
+        margin-bottom: $spacing-28;
     }
 
     &__form {
-        display: flex; /* Flexbox para o formulário */
-        flex-direction: column; /* Direção da coluna para os inputs */
-        align-items: center; /* Centraliza horizontalmente */
-        width: 100%; /* Ocupa toda a largura disponível */
-        max-width: 600px; /* Largura máxima do formulário */
-        margin: 0 auto;
-        
+        display: flex;
+        flex-direction: column;
+        width: 552px;
+
         &--field {
-            margin-top: $spacing-16; /* Espaçamento superior para cada campo */
-            width: 100%; /* Ocupa toda a largura do contêiner */
+            margin-top: $spacing-16;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            padding: 0 0;
 
-            mat-label {
-                font-size: $text-size-16; /* Tamanho do label */
-            }
-        }
-
-        &--submit {
-            margin-top: $spacing-36; /* Espaçamento superior para o botão */
-            width: 100%; /* Ocupa toda a largura do contêiner */
-        }
-    }
-
-    /* Estilos para o campo de formulário */
-    :host ::ng-deep .mdc-text-field--outlined {
-        --mdc-outlined-text-field-container-shape: 4px;
-    }
-
-    ::ng-deep .mdc-notched-outline > * {
-        border-color: $secondary-color !important;
-    }
-
-    ::ng-deep .mdc-text-field--focused .mdc-notched-outline > * {
-        border-color: $primary-color !important;
-    }
-
-    ::ng-deep .mdc-text-field--invalid .mdc-notched-outline > * {
-        border-color: red !important;
-    }
-
-    .mat-mdc-form-field-bottom-align::before {
-        margin-left: -$spacing-14;
-    }
-
-    /* Estilos responsivos */
-    @media screen and (max-width: 630px) {
-        .student-registration__form {
-            max-width: 90%; /* Largura do formulário em telas menores */
-        }
-
-        &__back {
-            &__text {
-                font-size: $text-size-18; /* Tamanho do texto em telas menores */
+            &--error {
+                padding: 0 0;
             }
         }
     }
 
-    @media screen and (max-width: 400px) {
-        .student-registration__text {
-            font-size: $text-size-16; /* Ajuste o tamanho do texto */
+    &__button {
+        display: flex;
+        justify-content: space-between;
+        margin-top: $spacing-20;
+        width: 100%;
+
+        &--back {
+            @include button-base();
+            border: 1px solid $secondary-color !important;
+            color: $primary-color !important;
         }
 
-        .student-registration__form {
-            max-width: 100%; /* Largura total em telas muito pequenas */
+        &--send {
+            @include button-base();
+            background-color: $primary-color !important;
+            color: $white-color !important;
+            transition: 0.5s ease;
+
+            &:hover {
+                background-color: $hover-color !important;
+            }
+
+            &.disabled {
+                background-color: $secondary-color !important;
+            }
         }
     }
 }
-.student-registration__west {
-    display: inline-block; /* Garante que o ícone seja tratado como bloco em linha */
-    margin-right: 8px; /* Ajuste para espaçamento */
+
+:host ::ng-deep .mdc-text-field--outlined {
+    --mdc-outlined-text-field-container-shape: 4px;
 }
 
-.student-registration__text {
-    display: inline-block;
-    margin-top: 10px; /* Garante que o texto seja tratado como bloco em linha */
+::ng-deep .mdc-notched-outline > * {
+    border-color: $secondary-color !important;
 }
 
-h2, h3{
-    margin-left: 100px;
-    font-weight: 500 ;
+::ng-deep .mdc-text-field--focused .mdc-notched-outline > * {
+    border-color: $primary-color !important;
+}
+
+::ng-deep .mdc-text-field--invalid .mdc-notched-outline > * {
+    border-color: red !important;
+}
+
+.mat-mdc-form-field-bottom-align::before {
+    margin-left: -$spacing-14;
 }
