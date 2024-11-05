@@ -6,11 +6,11 @@
         </div>
     </section>
 
-    <section class="student-registration" [formGroup]="studentForm">
-        <div class="student-registration">
+    <section class="student-registration">
+        <form class="student-registration" [formGroup]="studentForm" (ngSubmit)="onSubmit()">
             <div class="student-registration__text">
-                <p>Novo Cadastro</p>
-                <p>Insira seus dados</p>
+                <p>Olá, (nome do aluno)</p>
+                <p>Conta pra gente um pouco mais sobre você:</p>
             </div>
 
             <div class="student-registration__form">
@@ -77,8 +77,8 @@
 
             <div class="student-registration__button">
                 <button mat-stroked-button class="student-registration__button--back" (click)="navigateToHome()">Voltar</button>
-                <button mat-flat-button class="student-registration__button--send" (click)="onSubmit()">Enviar</button>
+                <button mat-flat-button class="student-registration__button--send" type="submit" [disabled]="studentForm.invalid" [ngClass]="{'disabled': studentForm.invalid}">Enviar</button>
             </div>
-        </div>
+        </form>
     </section>
 </main>

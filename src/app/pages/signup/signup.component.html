@@ -6,8 +6,8 @@
         </div>
     </section>
 
-    <section class="signup" [formGroup]="signupForm">
-        <div class="signup">
+    <section class="signup">
+        <form class="signup" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <div class="signup__text">
                 <p>Novo Cadastro</p>
                 <p>Insira seus dados</p>
@@ -55,8 +55,8 @@
 
             <div class="signup__button">
                 <button mat-stroked-button class="signup__button--back" (click)="navigateToLogin()">Voltar</button>
-                <button mat-flat-button class="signup__button--send" (click)="onSubmit()" [disabled]="signupForm.invalid" [ngClass]="{'disabled': signupForm.invalid}">Enviar</button>
+                <button mat-flat-button class="signup__button--send" type="submit" [disabled]="signupForm.invalid" [ngClass]="{'disabled': signupForm.invalid}">Enviar</button>
             </div>
-        </div>
+        </form>
     </section>
 </main>

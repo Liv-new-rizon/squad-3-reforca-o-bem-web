@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
+import { StudentValidators } from 'src/app/core/validators/student-validators';
+import { LoadingService } from 'src/app/core/services/loading.service';
+import { take } from 'rxjs/operators';
+import { DialogService } from 'src/app/core/services/dialog.service';
 
 @Component({
   selector: 'app-student-registration',
@@ -19,10 +23,15 @@ export class StudentRegistrationComponent {
     'Ensino Médio (1º ano)', 'Ensino Médio (2º ano)', 'Ensino Médio (3º ano)'
   ];
 
-  public constructor(private router: Router) {
+  public constructor(
+    private router: Router,
+    private loadingService: LoadingService,
+    private readonly dialogService: DialogService, 
+  ) {
     this.studentForm = new FormGroup({
       birthday: new FormControl('', [
         Validators.required,
+        StudentValidators.date
       ]),
       scholarship: new FormControl([], [
         Validators.required,
@@ -35,6 +44,7 @@ export class StudentRegistrationComponent {
       ]),
       phoneNumber: new FormControl('', [
         Validators.required,
+        Validators.minLength(15),
       ]),
     });
   }
@@ -50,7 +60,8 @@ export class StudentRegistrationComponent {
 
     const errorMessages: { [key: string]: { [key: string]: string } } = {
       birthday: { 
-        required: 'A data de nascimento é obrigatória.' 
+        required: 'A data de nascimento é obrigatória.',
+        invalidDate: 'Data inválida.'
       },
       scholarship: { 
         required: 'A escolaridade é obrigatória.' 
@@ -62,7 +73,8 @@ export class StudentRegistrationComponent {
         required: 'As matérias de interesse são obrigatórias.' 
       },
       phoneNumber: { 
-        required: 'O número de telefone é obrigatório.' 
+        required: 'O número de telefone é obrigatório.',
+        minlength: 'O número deve ter 11 dígitos.'
       },
     };
 
@@ -92,10 +104,44 @@ export class StudentRegistrationComponent {
     this.router.navigate(['/home']);
   }
 
+  /**
+   * Submits the student form
+   * If the form is valid, a success message is displayed
+   */
   public onSubmit(): void {
-    if (this.studentForm.valid) {
-      console.log('Formulário de cadastro do estudante enviado:', this.studentForm.value);
+    try{
+      this.loadingService.show();
+      console.log(this.studentForm);
+      this.showSuccessMessage();
+    } catch (error) {
+      return this.showErrorMessage('Erro no cadastro');
+    } finally {
+      this.loadingService.hide();
     }
+  }
+
+  /**
+   * Displays a success message using the dialog service
+   * The message indicates that the student registration was successfully completed
+   */
+  public showSuccessMessage(): void {
+    this.dialogService.openInfoDialog({
+      title: 'Cadastro completo',
+      buttonText: 'Fechar'
+    }).pipe(take(1)).subscribe(() => {
+      this.navigateToHome();
+    });
+  }
+
+  /**
+   * Displays a error message using the dialog service
+   * @param message The message indicating the error
+   */
+  private showErrorMessage(message: string): void {
+    this.dialogService.openInfoDialog({
+      title: message,
+      buttonText: 'Fechar'
+    });
   }
 }
 
