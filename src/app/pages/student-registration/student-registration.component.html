@@ -1,21 +1,84 @@
 <main>
-    <section class="student-registration__back">
-        <div class="student-registration__top">
-            <mat-icon fontIcon="west" class="student-registration__west" (click)="navigateToLogin()"></mat-icon>
-            <p class="student-registration__text">Cadastro Aluno</p>
+    <section class="back-home">
+        <div class="back-home__top">
+            <mat-icon fontIcon="west" class="back-home__west" (click)="navigateToHome()"></mat-icon>
+            <p class="back-home__text">Cadastro Aluno</p>
         </div>
     </section>
 
-    <h2>Olá, (nome do aluno)</h2>
-    <h3>Conta pra gente um pouco mais sobre você:</h3>
-    
-    <form [formGroup]="studentForm" (ngSubmit)="registerStudent()" class="student-registration__form">
-        <mat-form-field appearance="outline" class="student-registration__form-field">
-            <mat-label>Data de nascimento</mat-label>
-            <input matInput [formControl]="dateControl" (input)="applyDateMask($event)" placeholder="Dia/Mês/Ano">
-            <mat-error *ngIf="dateControl.invalid">{{ getErrorMessage() }}</mat-error>
-        </mat-form-field>
+    <section class="student-registration">
+        <form class="student-registration" [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+            <div class="student-registration__text">
+                <p>Olá, (nome do aluno)</p>
+                <p>Conta pra gente um pouco mais sobre você:</p>
+            </div>
 
-        <button type="submit" mat-raised-button color="primary" [disabled]="!studentForm.valid">Registrar</button>
-    </form>
+            <div class="student-registration__form">
+                <mat-form-field subscriptSizing="dynamic" appearance="outline" class="student-registration__form--field">
+                    <mat-label class="student-registration__form--field--label">Data de nascimento</mat-label>
+                    <input matInput type="text" formControlName="birthday" [required]="false" [value]="studentForm.get('birthday')?.value | birthdate" maxlength="10" class="student-registration__form--field--input" placeholder="Data de nascimento">
+                    <mat-error *ngIf="isControlInvalid('birthday')" class="student-registration__form--field--error">
+                        {{ getErrorMessage('birthday') }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="student-registration__form">
+                <mat-form-field subscriptSizing="dynamic" appearance="outline" class="student-registration__form--field">
+                    <mat-label class="student-registration__form--field--label">Escolaridade</mat-label>
+                    <mat-select formControlName="scholarship" [required]="false" class="student-registration__form--field--input" placeholder="Em qual tipo de escola você estuda?">
+                        <mat-option *ngFor="let scholarship of scholarships" [value]="scholarship">
+                            {{ scholarship }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="isControlInvalid('scholarship')" class="student-registration__form--field--error">
+                        {{ getErrorMessage('scholarship') }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="student-registration__form">
+                <mat-form-field subscriptSizing="dynamic" appearance="outline" class="student-registration__form--field">
+                    <mat-label class="student-registration__form--field--label">Tipo de escola</mat-label>
+                    <mat-select formControlName="schoolType" [required]="false" class="student-registration__form--field--input" placeholder="Em qual tipo de escola você estuda?">
+                        <mat-option *ngFor="let schoolType of schoolTypes" [value]="schoolType">
+                            {{ schoolType }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="isControlInvalid('schoolType')" class="student-registration__form--field--error">
+                        {{ getErrorMessage('schoolType') }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="student-registration__form">
+                <mat-form-field subscriptSizing="dynamic" appearance="outline" class="student-registration__form--field">
+                    <mat-label class="student-registration__form--field--label">Matérias </mat-label>
+                    <mat-select formControlName="subject" multiple [required]="false" class="student-registration__form--field--input" placeholder="Quais suas matérias de interesse? ">
+                        <mat-option *ngFor="let subject of subjects" [value]="subject">
+                            {{ subject }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="isControlInvalid('subject')" class="student-registration__form--field--error">
+                        {{ getErrorMessage('subject') }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="student-registration__form">
+                <mat-form-field subscriptSizing="dynamic" appearance="outline" class="student-registration__form--field">
+                    <mat-label class="student-registration__form--field--label">Telefone</mat-label>
+                    <input matInput type="text" formControlName="phoneNumber" [required]="false" [value]="studentForm.get('phoneNumber')?.value | phone" maxlength="15" class="student-registration__form--field--input" placeholder="Qual o seu número de telefone (lembre de colocar o DDD)?">
+                    <mat-error *ngIf="isControlInvalid('phoneNumber')" class="student-registration__form--field--error">
+                        {{ getErrorMessage('phoneNumber') }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="student-registration__button">
+                <button mat-stroked-button class="student-registration__button--back" (click)="navigateToHome()">Voltar</button>
+                <button mat-flat-button class="student-registration__button--send" type="submit" [disabled]="studentForm.invalid" [ngClass]="{'disabled': studentForm.invalid}">Enviar</button>
+            </div>
+        </form>
+    </section>
 </main>

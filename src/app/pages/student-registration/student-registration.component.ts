@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup, Validators} from '@angular/forms';
+import { StudentValidators } from 'src/app/core/validators/student-validators';
+import { LoadingService } from 'src/app/core/services/loading.service';
+import { take } from 'rxjs/operators';
+import { DialogService } from 'src/app/core/services/dialog.service';
 
 @Component({
   selector: 'app-student-registration',
@@ -8,101 +12,136 @@ import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors }
   styleUrls: ['./student-registration.component.scss']
 })
 export class StudentRegistrationComponent {
-  public studentForm: FormGroup; 
-  public dateControl: FormControl; 
+  public studentForm: FormGroup;
+  public subjects: string[] = [
+    'Língua Portuguesa', 'Inglês', 'Artes', 'Educação Física', 'Matemática', 'Física', 'Química', 'Biologia', 'História', 'Geografia', 'Filosofia', 'Sociologia'
+  ];
+  public schoolTypes: string[] = [
+    'Escola Pública', 'Escola Privada'
+  ];
+  public scholarships: string[] = [
+    'Ensino Médio (1º ano)', 'Ensino Médio (2º ano)', 'Ensino Médio (3º ano)'
+  ];
 
-  /**
-   * Constructor for the StudentRegistrationComponent.
-   * Initializes the form and the date control.
-   * 
-   */
-  public constructor(private router: Router) {
-    this.dateControl = new FormControl('', [
-      Validators.required,
-      this.dateValidator.bind(this) 
-    ]);
-
+  public constructor(
+    private router: Router,
+    private loadingService: LoadingService,
+    private readonly dialogService: DialogService, 
+  ) {
     this.studentForm = new FormGroup({
-      date: this.dateControl 
+      birthday: new FormControl('', [
+        Validators.required,
+        StudentValidators.date
+      ]),
+      scholarship: new FormControl([], [
+        Validators.required,
+      ]),
+      schoolType: new FormControl([], [
+        Validators.required,
+      ]),
+      subject: new FormControl([], [
+        Validators.required,
+      ]),
+      phoneNumber: new FormControl('', [
+        Validators.required,
+        Validators.minLength(15),
+      ]),
     });
   }
 
   /**
-   * Navigates to the login page.
-   */
-  public navigateToLogin() {
-    this.router.navigate(['/login']);
-  }
-
-  /**
-   * Applies a date mask to the input field.
+   * It checks the errors in the control and returns the appropriate message based on the control's validation status.
    * 
+   * @param controlName - The name of the form control (e.g: 'birthday')
+   * @returns The corresponding error message for the control's error
    */
-  public applyDateMask(event: Event) {
-    const input = (event.target as HTMLInputElement).value; 
-    if (!input) return;
+  public getErrorMessage(controlName: string): string {
+    const control = this.studentForm.get(controlName);
 
-    let formatted = input.replace(/\D/g, ''); 
-    if (formatted.length >= 2) {
-      formatted = `${formatted.slice(0, 2)}/${formatted.slice(2)}`; 
-    }
-    if (formatted.length >= 5) {
-      formatted = `${formatted.slice(0, 5)}/${formatted.slice(5, 9)}`;
-    }
-    this.dateControl.setValue(formatted); 
-  }
+    const errorMessages: { [key: string]: { [key: string]: string } } = {
+      birthday: { 
+        required: 'A data de nascimento é obrigatória.',
+        invalidDate: 'Data inválida.'
+      },
+      scholarship: { 
+        required: 'A escolaridade é obrigatória.' 
+      },
+      schoolType: { 
+        required: 'O tipo de escola é obrigatório.' 
+      },
+      subject: { 
+        required: 'As matérias de interesse são obrigatórias.' 
+      },
+      phoneNumber: { 
+        required: 'O número de telefone é obrigatório.',
+        minlength: 'O número deve ter 11 dígitos.'
+      },
+    };
 
-  /**
-   * Custom validator to ensure the date is valid and does not exceed today's date.
-   * 
-   */
-  public dateValidator(control: AbstractControl): ValidationErrors | null {
-    const inputValue = control.value || '';
-    const digitsOnly = inputValue.replace(/\D/g, ''); 
-
-    if (digitsOnly.length !== 8) {
-      return { invalidDate: true };
-    }
-
-    const day = parseInt(digitsOnly.slice(0, 2), 10);
-    const month = parseInt(digitsOnly.slice(2, 4), 10) - 1; 
-    const year = parseInt(digitsOnly.slice(4, 8), 10);
-    const inputDate = new Date(year, month, day);
-    const today = new Date();
-
-    if (inputDate > today) {
-      return { dateTooFar: true };
-    }
-
-    return null;
-  }
-
-  /**
-   * Captures the appropriate error message for the date input.
-   * 
-   */
-  public getErrorMessage() {
-    if (this.dateControl.hasError('required')) {
-      return 'Data é obrigatória';
-    }
-    if (this.dateControl.hasError('invalidDate')) {
-      return 'Dígitos insuficientes';
-    }
-    if (this.dateControl.hasError('dateTooFar')) {
-      return 'Data inválida';
+    for (const error in errorMessages[controlName]) {
+      if (control?.hasError(error)) {
+        return errorMessages[controlName][error];
+      }
     }
     return '';
   }
 
   /**
-   * Registers a new student with the form data.
+   * Verifies whether the form control is invalid by checking if the control is dirty or touched and contains validation errors
+   * 
+   * @param controlName The name of the form control
+   * @returns 'true' if the control is invalid and has been touched or is dirty, otherwise 'false'
    */
-  public registerStudent() {
-    if (this.studentForm.valid) {
-      console.log('Formulário enviado com sucesso!', this.studentForm.value);
-    } else {
-      alert('Formulário inválido');
+  public isControlInvalid(controlName: string): boolean {
+    const control = this.studentForm.get(controlName);
+    return !!(control?.invalid && (control.dirty || control.touched));
+  }
+
+  /**
+   * Navigates to the home page.
+   */
+  public navigateToHome(): void {
+    this.router.navigate(['/home']);
+  }
+
+  /**
+   * Submits the student form
+   * If the form is valid, a success message is displayed
+   */
+  public onSubmit(): void {
+    try{
+      this.loadingService.show();
+      console.log(this.studentForm);
+      this.showSuccessMessage();
+    } catch (error) {
+      return this.showErrorMessage('Erro no cadastro');
+    } finally {
+      this.loadingService.hide();
     }
+  }
+
+  /**
+   * Displays a success message using the dialog service
+   * The message indicates that the student registration was successfully completed
+   */
+  public showSuccessMessage(): void {
+    this.dialogService.openInfoDialog({
+      title: 'Cadastro completo',
+      buttonText: 'Fechar'
+    }).pipe(take(1)).subscribe(() => {
+      this.navigateToHome();
+    });
+  }
+
+  /**
+   * Displays a error message using the dialog service
+   * @param message The message indicating the error
+   */
+  private showErrorMessage(message: string): void {
+    this.dialogService.openInfoDialog({
+      title: message,
+      buttonText: 'Fechar'
+    });
   }
 }
 

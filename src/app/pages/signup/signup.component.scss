@@ -1,11 +1,5 @@
 @import 'src/assets/variables';
-
-@mixin button-base {
-    width: $button-width;
-    height: $button-height;
-    border-radius: $border-radius-24;
-    font-size: $text-size-14;
-}
+@import 'src/assets/mixins';
 
 .back-login {
     display: flex;

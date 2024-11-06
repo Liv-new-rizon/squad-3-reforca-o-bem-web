@@ -12,10 +12,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+
+
 import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { DialogComponent } from './theme/components/dialog/dialog.component';
@@ -24,6 +25,8 @@ import { StudentRegistrationComponent } from './pages/student-registration/stude
 import { AuthService } from './core/services/auth.service';
 import { LoadingComponent } from './theme/components/loading/loading.component';
 import { LoadingService } from './core/services/loading.service';
+import { PhonePipe } from './core/models/pipes/phone.pipe';
+import { BirthdatePipe } from './core/models/pipes/birthdate.pipe';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,9 @@ import { LoadingService } from './core/services/loading.service';
     SignupComponent,  
     DialogComponent, 
     StudentRegistrationComponent,
-    LoadingComponent
+    LoadingComponent,
+    PhonePipe,
+    BirthdatePipe
   ],
   imports: [
     BrowserModule,
@@ -47,7 +52,8 @@ import { LoadingService } from './core/services/loading.service';
     MatCheckboxModule,  
     MatDialogModule,
     HttpClientModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSelectModule,
   ],
   providers: [DialogService, AuthService, LoadingService],
   bootstrap: [AppComponent]
