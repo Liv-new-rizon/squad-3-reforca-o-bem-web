@@ -9,7 +9,7 @@
     <section class="student-registration">
         <form class="student-registration" [formGroup]="studentForm" (ngSubmit)="onSubmit()">
             <div class="student-registration__text">
-                <p>Olá, (nome do aluno)</p>
+                <p>Olá, {{userName}}</p>
                 <p>Conta pra gente um pouco mais sobre você:</p>
             </div>
 
@@ -68,7 +68,7 @@
             <div class="student-registration__form">
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="student-registration__form--field">
                     <mat-label class="student-registration__form--field--label">Telefone</mat-label>
-                    <input matInput type="text" formControlName="phoneNumber" [required]="false" [value]="studentForm.get('phoneNumber')?.value | phone" maxlength="15" class="student-registration__form--field--input" placeholder="Qual o seu número de telefone (lembre de colocar o DDD)?">
+                    <input matInput type="text" formControlName="phoneNumber" [required]="false" [value]="studentForm.get('phoneNumber')?.value | phone" maxlength="15" class="student-registration__form--field--input" placeholder="Número de telefone com DDD">
                     <mat-error *ngIf="isControlInvalid('phoneNumber')" class="student-registration__form--field--error">
                         {{ getErrorMessage('phoneNumber') }}
                     </mat-error>
