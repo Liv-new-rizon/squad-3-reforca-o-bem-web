@@ -4,6 +4,7 @@ import { API_PATH } from 'src/environments/environment';
 import { ILoginData } from '../models/interfaces/ILoginData';
 import { ISignupData } from '../models/interfaces/ISignupData';
 import { IUserInfo } from '../models/interfaces/IUserInfo';
+import { IStudentData } from '../models/interfaces/IStudentData';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,8 @@ import { IUserInfo } from '../models/interfaces/IUserInfo';
 export class AuthService {
   private loginUrl = `${API_PATH}auth/login`;
   private signupUrl = `${API_PATH}users`;
-  private meUrl = `${API_PATH}users/me`
+  private meUrl = `${API_PATH}users/me`;
+  private profileUrl = `${API_PATH}profile`
 
   constructor(private http: HttpClient) {}
 
@@ -37,7 +39,7 @@ export class AuthService {
    * @returns Promise with API response
    */
   public loginUser<ILoginResponse>(data: ILoginData): Promise<ILoginResponse> {
-    return this.http.post<ILoginResponse>(this.loginUrl, data).toPromise() as Promise<ILoginResponse>;
+    return this.http.post<ILoginResponse>(this.loginUrl, data, { headers: this.headers }).toPromise() as Promise<ILoginResponse>;
   }
 
   /**
@@ -46,7 +48,7 @@ export class AuthService {
    * @returns Promise with API response
    */
   public signupUser(data: ISignupData): Promise<object> {
-    return this.http.post<object>(this.signupUrl, data).toPromise() as Promise<object>;
+    return this.http.post<object>(this.signupUrl, data, { headers: this.headers }).toPromise() as Promise<object>;
   }
 
   /**
@@ -55,5 +57,14 @@ export class AuthService {
    */
   public getUserInfo(): Promise<IUserInfo> {
     return this.http.get<IUserInfo>(this.meUrl, { headers: this.headers }).toPromise() as Promise<IUserInfo>;
+  }
+
+  /**
+   * Sends a student registration request to the backend
+   * @param data Contains birthDate, educationLevel, schoolType, subjectsOfInterest and phoneNumber
+   * @returns Promise with API response
+   */
+  public signupStudent(data: IStudentData): Promise<object> {
+    return this.http.post<object>(this.profileUrl, data, { headers: this.headers }).toPromise() as Promise<object>;
   }
 }
