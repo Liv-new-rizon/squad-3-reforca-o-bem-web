@@ -33,7 +33,7 @@
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="signup__form--field">
                     <mat-label class="signup__form--field--label">Senha</mat-label>
                     <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required="false" class="signup__form--field--input">
-                    <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-pressed]="hidePassword">
+                    <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-pressed]="hidePassword">
                       <mat-icon class="signup__form--field--icon">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
                     <mat-error *ngIf="isControlInvalid('password')" class="signup__form--field--error">
@@ -44,7 +44,7 @@
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="signup__form--field">
                     <mat-label class="signup__form--field--label">Confirmar senha</mat-label>
                     <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" required="false" class="signup__form--field--input">
-                    <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-pressed]="hideConfirmPassword">
+                    <button mat-icon-button matSuffix type="button" (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-pressed]="hideConfirmPassword">
                       <mat-icon class="signup__form--field--icon">{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
                     <mat-error *ngIf="isControlInvalid('confirmPassword')" class="signup__form--field--error">

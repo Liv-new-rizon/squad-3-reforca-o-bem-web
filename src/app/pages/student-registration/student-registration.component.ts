@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
 import { StudentValidators } from 'src/app/core/validators/student-validators';
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { take } from 'rxjs/operators';
 import { DialogService } from 'src/app/core/services/dialog.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-student-registration',
   templateUrl: './student-registration.component.html',
   styleUrls: ['./student-registration.component.scss']
 })
-export class StudentRegistrationComponent {
+export class StudentRegistrationComponent implements OnInit{
   public studentForm: FormGroup;
   public subjects: string[] = [
     'Língua Portuguesa', 'Inglês', 'Artes', 'Educação Física', 'Matemática', 'Física', 'Química', 'Biologia', 'História', 'Geografia', 'Filosofia', 'Sociologia'
@@ -22,11 +23,13 @@ export class StudentRegistrationComponent {
   public scholarships: string[] = [
     'Ensino Médio (1º ano)', 'Ensino Médio (2º ano)', 'Ensino Médio (3º ano)'
   ];
+  public userName = ''
 
   public constructor(
     private router: Router,
     private loadingService: LoadingService,
     private readonly dialogService: DialogService, 
+    private authService: AuthService
   ) {
     this.studentForm = new FormGroup({
       birthday: new FormControl('', [
@@ -87,6 +90,27 @@ export class StudentRegistrationComponent {
   }
 
   /**
+   * Initializes the page by fetching user information
+   * If successful, sets the userName. If it fails redirects to login
+   */
+  public async ngOnInit(): Promise<void> {
+    try {
+      this.loadingService.show();
+      const response = await this.authService.getUserInfo();
+      this.userName = response.user.name;
+    } catch (error) {
+      this.showErrorMessage('Erro ao obter informações do usuário');
+      if (error.status === 401) {
+        localStorage.removeItem('authToken');
+        sessionStorage.removeItem('authToken');
+      }
+      this.navigateToLogin();
+    } finally {
+      this.loadingService.hide();
+    }
+  }
+
+  /**
    * Verifies whether the form control is invalid by checking if the control is dirty or touched and contains validation errors
    * 
    * @param controlName The name of the form control
@@ -95,6 +119,13 @@ export class StudentRegistrationComponent {
   public isControlInvalid(controlName: string): boolean {
     const control = this.studentForm.get(controlName);
     return !!(control?.invalid && (control.dirty || control.touched));
+  }
+
+  /**
+   * Navigates to the login page.
+   */
+  public navigateToLogin(): void {
+    this.router.navigate(['/login']);
   }
 
   /**

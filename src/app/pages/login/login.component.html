@@ -2,21 +2,21 @@
 
     <img src="assets/img/logo-reforcaOBem.png" alt="Logo Reforça o Bem" class="login__image" />
 
-    <p>Faça seu login para entrar na plataforma</p>
+    <p class="login__text">Faça seu login para entrar na plataforma</p>
 
     <form [formGroup]="loginForm" (ngSubmit)="login()">
 
         <mat-form-field appearance="outline" class="login__form-field">
             <mat-label>E-mail</mat-label>
-            <input matInput formControlName="email" (blur)="validateEmail()" />
+            <input matInput formControlName="email" required="false" (blur)="validateEmail()" />
             <mat-error *ngIf="emailError">{{ emailError }}</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="login__form-field">
             <mat-label>Senha</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password"
+            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" required="false"
                 (blur)="validatePassword()" />
-            <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+            <button mat-icon-button matSuffix type="button" (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
                 [attr.aria-pressed]="hide">
                 <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
@@ -29,7 +29,7 @@
             [disabled]="loginForm.invalid">Entrar</button>
 
         <div class="login__footer">
-            <button mat-button class="login__forgot-password-button" (click)="forgotPassword()">Esqueceu sua
+            <button mat-button type="button" class="login__forgot-password-button" (click)="forgotPassword()">Esqueceu sua
                 senha?</button>
             <a *ngIf="emailNotRegistered" class="register-link">conta não encontrada</a>
 

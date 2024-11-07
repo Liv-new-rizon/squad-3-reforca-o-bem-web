@@ -158,6 +158,10 @@
                 &--icon {
                     transform: scale(0.8);
                 }
+
+                &--input {
+                    font-size: $text-size-12 !important;
+                }
             }
     }
     .signup__button {
