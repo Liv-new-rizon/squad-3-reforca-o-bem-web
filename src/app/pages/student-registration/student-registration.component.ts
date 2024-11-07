@@ -14,13 +14,13 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class StudentRegistrationComponent implements OnInit{
   public studentForm: FormGroup;
-  public subjects: string[] = [
+  public subjectsOfInterests: string[] = [
     'Língua Portuguesa', 'Inglês', 'Artes', 'Educação Física', 'Matemática', 'Física', 'Química', 'Biologia', 'História', 'Geografia', 'Filosofia', 'Sociologia'
   ];
   public schoolTypes: string[] = [
     'Escola Pública', 'Escola Privada'
   ];
-  public scholarships: string[] = [
+  public educationLevels: string[] = [
     'Ensino Médio (1º ano)', 'Ensino Médio (2º ano)', 'Ensino Médio (3º ano)'
   ];
   public userName = ''
@@ -32,47 +32,48 @@ export class StudentRegistrationComponent implements OnInit{
     private authService: AuthService
   ) {
     this.studentForm = new FormGroup({
-      birthday: new FormControl('', [
+      birthDate: new FormControl('', [
         Validators.required,
         StudentValidators.date
       ]),
-      scholarship: new FormControl([], [
+      educationLevel: new FormControl([], [
         Validators.required,
       ]),
       schoolType: new FormControl([], [
         Validators.required,
       ]),
-      subject: new FormControl([], [
+      subjectsOfInterest: new FormControl([], [
         Validators.required,
       ]),
       phoneNumber: new FormControl('', [
         Validators.required,
         Validators.minLength(15),
       ]),
+      type: new FormControl('student'),
     });
   }
 
   /**
    * It checks the errors in the control and returns the appropriate message based on the control's validation status.
    * 
-   * @param controlName - The name of the form control (e.g: 'birthday')
+   * @param controlName - The name of the form control (e.g: 'birthDate')
    * @returns The corresponding error message for the control's error
    */
   public getErrorMessage(controlName: string): string {
     const control = this.studentForm.get(controlName);
 
     const errorMessages: { [key: string]: { [key: string]: string } } = {
-      birthday: { 
+      birthDate: { 
         required: 'A data de nascimento é obrigatória.',
         invalidDate: 'Data inválida.'
       },
-      scholarship: { 
+      educationLevel: { 
         required: 'A escolaridade é obrigatória.' 
       },
       schoolType: { 
         required: 'O tipo de escola é obrigatório.' 
       },
-      subject: { 
+      subjectsOfInterest: { 
         required: 'As matérias de interesse são obrigatórias.' 
       },
       phoneNumber: { 
@@ -139,12 +140,15 @@ export class StudentRegistrationComponent implements OnInit{
    * Submits the student form
    * If the form is valid, a success message is displayed
    */
-  public onSubmit(): void {
+  public async onSubmit(): Promise<void> {
     try{
       this.loadingService.show();
-      console.log(this.studentForm);
+      await this.authService.signupStudent(this.studentForm.value);
       this.showSuccessMessage();
     } catch (error) {
+      if (error.status === 400) {
+        return this.showErrorMessage(error.error.message);
+      }
       return this.showErrorMessage('Erro no cadastro');
     } finally {
       this.loadingService.hide();

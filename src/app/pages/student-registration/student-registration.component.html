@@ -16,9 +16,9 @@
             <div class="student-registration__form">
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="student-registration__form--field">
                     <mat-label class="student-registration__form--field--label">Data de nascimento</mat-label>
-                    <input matInput type="text" formControlName="birthday" [required]="false" [value]="studentForm.get('birthday')?.value | birthdate" maxlength="10" class="student-registration__form--field--input" placeholder="Data de nascimento">
-                    <mat-error *ngIf="isControlInvalid('birthday')" class="student-registration__form--field--error">
-                        {{ getErrorMessage('birthday') }}
+                    <input matInput type="text" formControlName="birthDate" [required]="false" [value]="studentForm.get('birthDate')?.value | birthdate" maxlength="10" class="student-registration__form--field--input" placeholder="Data de nascimento">
+                    <mat-error *ngIf="isControlInvalid('birthDate')" class="student-registration__form--field--error">
+                        {{ getErrorMessage('birthDate') }}
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -26,13 +26,13 @@
             <div class="student-registration__form">
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="student-registration__form--field">
                     <mat-label class="student-registration__form--field--label">Escolaridade</mat-label>
-                    <mat-select formControlName="scholarship" [required]="false" class="student-registration__form--field--input" placeholder="Em qual tipo de escola você estuda?">
-                        <mat-option *ngFor="let scholarship of scholarships" [value]="scholarship">
-                            {{ scholarship }}
+                    <mat-select formControlName="educationLevel" [required]="false" class="student-registration__form--field--input" placeholder="Em qual tipo de escola você estuda?">
+                        <mat-option *ngFor="let educationLevel of educationLevels" [value]="educationLevel">
+                            {{ educationLevel }}
                         </mat-option>
                     </mat-select>
-                    <mat-error *ngIf="isControlInvalid('scholarship')" class="student-registration__form--field--error">
-                        {{ getErrorMessage('scholarship') }}
+                    <mat-error *ngIf="isControlInvalid('educationLevel')" class="student-registration__form--field--error">
+                        {{ getErrorMessage('educationLevel') }}
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -54,13 +54,13 @@
             <div class="student-registration__form">
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="student-registration__form--field">
                     <mat-label class="student-registration__form--field--label">Matérias </mat-label>
-                    <mat-select formControlName="subject" multiple [required]="false" class="student-registration__form--field--input" placeholder="Quais suas matérias de interesse? ">
-                        <mat-option *ngFor="let subject of subjects" [value]="subject">
-                            {{ subject }}
+                    <mat-select formControlName="subjectsOfInterest" multiple [required]="false" class="student-registration__form--field--input" placeholder="Quais suas matérias de interesse? ">
+                        <mat-option *ngFor="let subjectsOfInterest of subjectsOfInterests" [value]="subjectsOfInterest">
+                            {{ subjectsOfInterest }}
                         </mat-option>
                     </mat-select>
-                    <mat-error *ngIf="isControlInvalid('subject')" class="student-registration__form--field--error">
-                        {{ getErrorMessage('subject') }}
+                    <mat-error *ngIf="isControlInvalid('subjectsOfInterest')" class="student-registration__form--field--error">
+                        {{ getErrorMessage('subjectsOfInterest') }}
                     </mat-error>
                 </mat-form-field>
             </div>
