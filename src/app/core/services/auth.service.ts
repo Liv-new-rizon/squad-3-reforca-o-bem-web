@@ -5,6 +5,7 @@ import { ILoginData } from '../models/interfaces/ILoginData';
 import { ISignupData } from '../models/interfaces/ISignupData';
 import { IUserInfo } from '../models/interfaces/IUserInfo';
 import { IStudentData } from '../models/interfaces/IStudentData';
+import { ITutorData } from '../models/interfaces/ITutorData';
 
 @Injectable({
   providedIn: 'root',

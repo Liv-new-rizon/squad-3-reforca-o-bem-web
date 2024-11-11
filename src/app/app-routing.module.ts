@@ -5,12 +5,17 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard'; 
 import { SignupComponent } from './pages/signup/signup.component';
 import { StudentRegistrationComponent } from './pages/student-registration/student-registration.component';
+import { TutorRegistrationComponent } from './pages/tutor-registration/tutor-registration.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },  
   { path: 'student-registration', 
     component: StudentRegistrationComponent,
+    canActivate: [AuthGuard]
+  },
+  { path: 'tutor-registration', 
+    component: TutorRegistrationComponent,
     canActivate: [AuthGuard]
   },
   { 

@@ -1,28 +1,26 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators} from '@angular/forms';
-import { StudentValidators } from 'src/app/core/validators/student-validators';
-import { LoadingService } from 'src/app/core/services/loading.service';
-import { take } from 'rxjs/operators';
-import { DialogService } from 'src/app/core/services/dialog.service';
+import { take } from 'rxjs';
+import { NAME_PATTERN } from 'src/app/core/constants/regex-patterns';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { DialogService } from 'src/app/core/services/dialog.service';
 import { FormErrorService } from 'src/app/core/services/form-error.service';
+import { LoadingService } from 'src/app/core/services/loading.service';
+import { SignupValidators } from 'src/app/core/validators/signup-validators';
 
 @Component({
-  selector: 'app-student-registration',
-  templateUrl: './student-registration.component.html',
-  styleUrls: ['./student-registration.component.scss']
+  selector: 'app-tutor-registration',
+  templateUrl: './tutor-registration.component.html',
+  styleUrls: ['./tutor-registration.component.scss'],
 })
-export class StudentRegistrationComponent implements OnInit{
-  public studentForm: FormGroup;
+export class TutorRegistrationComponent implements OnInit{
+  public tutorForm: FormGroup;
+  public hasProfessionalAssociations: string[] = [
+    'Sim', 'Não'
+  ];
   public subjectsOfInterests: string[] = [
     'Língua Portuguesa', 'Inglês', 'Artes', 'Educação Física', 'Matemática', 'Física', 'Química', 'Biologia', 'História', 'Geografia', 'Filosofia', 'Sociologia'
-  ];
-  public schoolTypes: string[] = [
-    'Escola Pública', 'Escola Privada'
-  ];
-  public educationLevels: string[] = [
-    'Ensino Médio (1º ano)', 'Ensino Médio (2º ano)', 'Ensino Médio (3º ano)'
   ];
   public userName = ''
 
@@ -31,38 +29,39 @@ export class StudentRegistrationComponent implements OnInit{
     private loadingService: LoadingService,
     private readonly dialogService: DialogService, 
     private authService: AuthService,
-    private formErrorService: FormErrorService
+    private formErrorService: FormErrorService,
   ) {
-    this.studentForm = new FormGroup({
-      birthDate: new FormControl('', [
+    this.tutorForm = new FormGroup({
+      occupation: new FormControl('', [
         Validators.required,
-        StudentValidators.date
+        Validators.pattern(NAME_PATTERN),
+        SignupValidators.noWhiteSpace,
       ]),
-      educationLevel: new FormControl([], [
-        Validators.required,
-      ]),
-      schoolType: new FormControl([], [
+      hasProfessionalAssociation: new FormControl('', [
         Validators.required,
       ]),
-      subjectsOfInterest: new FormControl([], [
+      professionalAssociation: new FormControl({value: '', disabled: true}),
+      documentNumber: new FormControl({value: '', disabled: true}),
+      subjectsOfInterest: new FormControl('', [
         Validators.required,
       ]),
       phoneNumber: new FormControl('', [
         Validators.required,
         Validators.minLength(15),
       ]),
-      type: new FormControl('student'),
-    });
+      type: new FormControl('tutor'),
+    })
+    this.setupFormValueChanges();
   }
 
   /**
    * It checks the errors in the control and returns the appropriate message based on the control's validation status.
    * 
-   * @param controlName - The name of the form control (e.g: 'birthDate')
+   * @param controlName - The name of the form control (e.g: 'occupation')
    * @returns The corresponding error message for the control's error
    */
   public getErrorMessage(controlName: string): string {
-    return this.formErrorService.getErrorMessage(this.studentForm, controlName);
+    return this.formErrorService.getErrorMessage(this.tutorForm, controlName);
   }
 
   /**
@@ -87,13 +86,49 @@ export class StudentRegistrationComponent implements OnInit{
   }
 
   /**
+   * Sets up value changes listener on the 'hasProfessionalAssociation' field to dynamically enable or disable the 'professionalAssociation' and 'documentNumber' fields
+   * based on the user's selection. Also, applies or removes required validators accordingly.
+   */
+  private setupFormValueChanges(): void {
+    this.tutorForm.get('hasProfessionalAssociation')?.valueChanges.subscribe(value => {
+      const professionalAssociation = this.tutorForm.get('professionalAssociation');
+      const documentNumber = this.tutorForm.get('documentNumber');
+
+      if (value === 'Sim') {
+        professionalAssociation?.enable();
+        documentNumber?.enable();
+        professionalAssociation?.setValidators([Validators.required]);
+        documentNumber?.setValidators([Validators.required]);
+      } else {
+        professionalAssociation?.disable();
+        documentNumber?.disable();
+        professionalAssociation?.clearValidators();
+        documentNumber?.clearValidators();
+        professionalAssociation?.setValue('');
+        documentNumber?.setValue('');
+      }
+
+      professionalAssociation?.updateValueAndValidity();
+      documentNumber?.updateValueAndValidity();
+    });
+  }
+
+  /**
+   * Checks if the 'professionalAssociation' and 'documentNumber' fields should be shown based on the selected value of the 'hasProfessionalAssociation' field.
+   * @returns 'true' if the user selected 'Sim' for 'hasProfessionalAssociation', indicating that additional professional fields should be displayed; otherwise, 'false'.
+   */
+  public showProfessionalFields(): boolean {
+    return this.tutorForm.get('hasProfessionalAssociation')?.value === 'Sim';
+  }
+
+  /**
    * Verifies whether the form control is invalid by checking if the control is dirty or touched and contains validation errors
    * 
    * @param controlName The name of the form control
    * @returns 'true' if the control is invalid and has been touched or is dirty, otherwise 'false'
    */
   public isControlInvalid(controlName: string): boolean {
-    const control = this.studentForm.get(controlName);
+    const control = this.tutorForm.get(controlName);
     return !!(control?.invalid && (control.dirty || control.touched));
   }
 
@@ -112,13 +147,12 @@ export class StudentRegistrationComponent implements OnInit{
   }
 
   /**
-   * Submits the student form
+   * Submits the tutor form
    * If the form is valid, a success message is displayed
    */
   public async onSubmit(): Promise<void> {
     try{
       this.loadingService.show();
-      await this.authService.signupStudent(this.studentForm.value);
       this.showSuccessMessage();
     } catch (error) {
       if (error.status === 400) {
@@ -154,4 +188,3 @@ export class StudentRegistrationComponent implements OnInit{
     });
   }
 }
-
