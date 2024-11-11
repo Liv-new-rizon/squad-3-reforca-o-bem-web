@@ -1,0 +1,230 @@
+@import 'src/assets/variables';
+@import 'src/assets/mixins';
+
+.back-home {
+    display: flex;
+    height: $spacing-64;
+    align-items: center;
+
+    &__top {
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        margin-left: 135px;
+    }
+
+    &__west {
+        cursor: pointer;
+    }
+
+    &__text {
+        font-size: $text-size-22;
+        margin-left: $spacing-16;
+    }
+}
+
+.tutor-registration {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__text {
+        font-size: $text-size-16;
+        font-weight: 500;
+        text-align: left;
+        width: 100%;
+        margin-top: $spacing-28;
+        margin-bottom: $spacing-28;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 552px;
+
+        .has-professional-association {
+            width: 300px;
+        }
+
+        &--help {
+            color: $secondary-color;
+            margin-top: $spacing-16;
+            margin-left: $spacing-8;
+        }
+
+        &--group {
+            display: flex;
+            justify-content: space-between;
+
+            .professional-association {
+                width: 300px;
+            }
+
+            .document-number {
+                width: 220px;
+            }
+        }
+        
+        &--field {
+            margin-top: $spacing-16;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            padding: 0 0;
+
+            &--error {
+                padding: 0 0;
+            }
+
+        }
+    }
+
+    &__button {
+        display: flex;
+        justify-content: space-between;
+        margin-top: $spacing-20;
+        width: 100%;
+
+        &--back {
+            @include button-base();
+            border: 1px solid $secondary-color !important;
+            color: $primary-color !important;
+        }
+
+        &--send {
+            @include button-base();
+            background-color: $primary-color !important;
+            color: $white-color !important;
+            transition: 0.5s ease;
+
+            &:hover {
+                background-color: $hover-color !important;
+            }
+
+            &.disabled {
+                background-color: $secondary-color !important;
+            }
+        }
+    }
+}
+
+:host ::ng-deep .mdc-text-field--outlined {
+    --mdc-outlined-text-field-container-shape: 4px;
+}
+
+::ng-deep .mdc-notched-outline > * {
+    border-color: $secondary-color !important;
+}
+
+::ng-deep .mdc-text-field--focused .mdc-notched-outline > * {
+    border-color: $primary-color !important;
+}
+
+::ng-deep .mdc-text-field--invalid .mdc-notched-outline > * {
+    border-color: red !important;
+}
+
+.mat-mdc-form-field-bottom-align::before {
+    margin-left: -$spacing-14;
+}
+
+@media screen and (max-width: 825px) {
+    .back-home__top {
+        margin-left: 38px;
+    }
+}
+
+@media screen and (max-width: 630px) {
+    .tutor-registration__text{
+        width: 324px;
+        margin-bottom: 0;
+        margin-top: $spacing-8;
+    }
+    .tutor-registration__form {
+        width: 324px;
+
+            &--field {
+                margin-top: $spacing-20;
+            }
+
+            &--group {
+                display: flex;
+                flex-direction: column;
+    
+                .professional-association {
+                    width: 324px;
+                }
+    
+                .document-number {
+                    width: 324px;
+                }
+            }
+
+            &--help {
+                margin-top: $spacing-14;
+            }
+    }
+    .tutor-registration__button {
+
+        &--back, &--send {
+            width: $button-width-630;
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .back-home__text{
+        font-size: $text-size-18;
+    }
+    .tutor-registration__text{
+        width: 250px;
+        font-size: $text-size-12;
+    }
+    .tutor-registration__form {
+        width: 250px;
+
+        .has-professional-association {
+            width: 200px;
+        }
+
+            &--field {
+                display: flex;
+                align-items: center;
+                margin-top: $spacing-8;
+
+                &--label {
+                    font-size: $text-size-12;
+                    display: flex;
+                    margin-bottom: $spacing-2;
+                }
+
+                &--error {
+                    display: flex;
+                    font-size: $text-size-12;
+                }
+
+                input::placeholder, &--input {
+                    font-size: $text-size-12 !important;
+                }
+            }
+
+            .professional-association {
+                width: 250px;
+            }
+
+            .document-number {
+                width: 250px;
+            }
+    }
+    .tutor-registration__button {
+        &--back, &--send {
+            width: $button-width-400;
+        }
+    }
+
+    ::ng-deep .mdc-list-item__primary-text {
+        font-size: $text-size-12 !important;
+    }
+}

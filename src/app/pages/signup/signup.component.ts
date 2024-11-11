@@ -60,7 +60,7 @@ export class SignupComponent implements OnInit {
       name: {
         required: 'O nome completo é obrigatório.',
         pattern: 'O nome informado é inválido.',
-        whitespace: 'O nome não deve conter espaços em branco.'
+        whitespace: 'O nome não deve conter apenas espaços em branco.'
       },
       email: {
         required: 'O e-mail é obrigatório.',

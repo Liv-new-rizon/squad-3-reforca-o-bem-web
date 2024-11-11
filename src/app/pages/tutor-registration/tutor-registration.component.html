@@ -1,0 +1,91 @@
+<main>
+    <section class="back-home">
+        <div class="back-home__top">
+            <mat-icon fontIcon="west" class="back-home__west" (click)="navigateToHome()"></mat-icon>
+            <p class="back-home__text">Cadastro Tutor</p>
+        </div>
+    </section>
+
+    <section class="tutor-registration">
+        <form class="tutor-registration" [formGroup]="tutorForm" (ngSubmit)="onSubmit()">
+            <div class="tutor-registration__text">
+                <p>Olá, {{userName}}</p>
+                <p>Antes de doar seu conhecimento, conta pra gente um pouco mais sobre você</p>
+            </div>
+
+            <div class="tutor-registration__form">
+                <mat-form-field subscriptSizing="dynamic" appearance="outline" class="tutor-registration__form--field">
+                    <mat-label class="tutor-registration__form--field--label">Profissão</mat-label>
+                    <input matInput type="text" formControlName="occupation" [required]="false" class="tutor-registration__form--field--input" placeholder="Profissão">
+                    <mat-error *ngIf="isControlInvalid('occupation')" class="tutor-registration__form--field--error">
+                        {{ getErrorMessage('occupation') }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="tutor-registration__form">
+                <mat-form-field subscriptSizing="dynamic" appearance="outline" class="tutor-registration__form--field has-professional-association">
+                    <mat-label class="tutor-registration__form--field--label">Entidade de classe</mat-label>
+                    <mat-select formControlName="hasProfessionalAssociation" [required]="false" class="tutor-registration__form--field--input" placeholder="Possui o documento? ">
+                        <mat-option *ngFor="let hasProfessionalAssociation of hasProfessionalAssociations" [value]="hasProfessionalAssociation">
+                            {{ hasProfessionalAssociation }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="isControlInvalid('hasProfessionalAssociation')" class="tutor-registration__form--field--error">
+                        {{ getErrorMessage('hasProfessionalAssociation') }}
+                    </mat-error>
+                </mat-form-field>
+                <mat-icon matTooltip="Ex: CRM de médicos, CREA de engenheiros, CRP de psicólogos etc" class="tutor-registration__form--help">
+                    help_outline
+                </mat-icon>
+            </div>
+
+            <div class="tutor-registration__form tutor-registration__form--group" *ngIf="showProfessionalFields()">
+                <mat-form-field subscriptSizing="dynamic" appearance="outline" class="tutor-registration__form--field professional-association">
+                    <mat-label class="tutor-registration__form--field--label">Qual entidade de classe?</mat-label>
+                    <input matInput type="text" formControlName="professionalAssociation" [required]="false" class="tutor-registration__form--field--input">
+                    <mat-error *ngIf="isControlInvalid('professionalAssociation')" class="tutor-registration__form--field--error">
+                        {{ getErrorMessage('professionalAssociation') }}
+                    </mat-error>
+                </mat-form-field>
+            
+                <mat-form-field subscriptSizing="dynamic" appearance="outline" class="tutor-registration__form--field document-number">
+                    <mat-label class="tutor-registration__form--field--label">Número do documento</mat-label>
+                    <input matInput type="text" formControlName="documentNumber" [required]="false" class="tutor-registration__form--field--input">
+                    <mat-error *ngIf="isControlInvalid('documentNumber')" class="tutor-registration__form--field--error">
+                        {{ getErrorMessage('documentNumber') }}
+                    </mat-error>
+                </mat-form-field>
+            </div>            
+
+            <div class="tutor-registration__form">
+                <mat-form-field subscriptSizing="dynamic" appearance="outline" class="tutor-registration__form--field">
+                    <mat-label class="tutor-registration__form--field--label">Matérias </mat-label>
+                    <mat-select formControlName="subjectsOfInterest" multiple [required]="false" class="tutor-registration__form--field--input" placeholder="Quais áreas você tem habilidade? ">
+                        <mat-option *ngFor="let subjectsOfInterest of subjectsOfInterests" [value]="subjectsOfInterest">
+                            {{ subjectsOfInterest }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="isControlInvalid('subjectsOfInterest')" class="tutor-registration__form--field--error">
+                        {{ getErrorMessage('subjectsOfInterest') }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="tutor-registration__form">
+                <mat-form-field subscriptSizing="dynamic" appearance="outline" class="tutor-registration__form--field">
+                    <mat-label class="tutor-registration__form--field--label">Telefone</mat-label>
+                    <input matInput type="text" formControlName="phoneNumber" [required]="false" [value]="tutorForm.get('phoneNumber')?.value | phone" maxlength="15" class="tutor-registration__form--field--input" placeholder="Número de telefone com DDD">
+                    <mat-error *ngIf="isControlInvalid('phoneNumber')" class="tutor-registration__form--field--error">
+                        {{ getErrorMessage('phoneNumber') }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="tutor-registration__button">
+                <button mat-stroked-button class="tutor-registration__button--back" (click)="navigateToHome()">Voltar</button>
+                <button mat-flat-button class="tutor-registration__button--send" type="submit" [disabled]="tutorForm.invalid" [ngClass]="{'disabled': tutorForm.invalid}">Enviar</button>
+            </div>
+        </form>
+    </section>
+</main>

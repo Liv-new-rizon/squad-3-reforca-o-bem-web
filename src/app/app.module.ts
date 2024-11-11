@@ -15,6 +15,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 import { LoginComponent } from './pages/login/login.component';
@@ -27,6 +28,7 @@ import { LoadingComponent } from './theme/components/loading/loading.component';
 import { LoadingService } from './core/services/loading.service';
 import { PhonePipe } from './core/models/pipes/phone.pipe';
 import { BirthdatePipe } from './core/models/pipes/birthdate.pipe';
+import { TutorRegistrationComponent } from './pages/tutor-registration/tutor-registration.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { BirthdatePipe } from './core/models/pipes/birthdate.pipe';
     StudentRegistrationComponent,
     LoadingComponent,
     PhonePipe,
-    BirthdatePipe
+    BirthdatePipe,
+    TutorRegistrationComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import { BirthdatePipe } from './core/models/pipes/birthdate.pipe';
     HttpClientModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MatTooltipModule
   ],
   providers: [DialogService, AuthService, LoadingService],
   bootstrap: [AppComponent]
