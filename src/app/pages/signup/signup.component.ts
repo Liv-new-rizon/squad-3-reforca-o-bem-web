@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { LoadingService } from 'src/app/core/services/loading.service';
+import { FormErrorService } from 'src/app/core/services/form-error.service';
 
 @Component({
   selector: 'app-signup',
@@ -25,6 +26,7 @@ export class SignupComponent implements OnInit {
     private router: Router, 
     private authService: AuthService,
     private loadingService: LoadingService,
+    private formErrorService: FormErrorService
   ) {
     this.signupForm = this.fb.group({
       name: new FormControl<string>('', [
@@ -54,40 +56,8 @@ export class SignupComponent implements OnInit {
    * @returns The corresponding error message for the control's error
    */
   public getErrorMessage(controlName: string): string {
-    const control = this.signupForm.get(controlName);
-    
-    const errorMessages: { [key: string]: { [key: string]: string } } = {
-      name: {
-        required: 'O nome completo é obrigatório.',
-        pattern: 'O nome informado é inválido.',
-        whitespace: 'O nome não deve conter apenas espaços em branco.'
-      },
-      email: {
-        required: 'O e-mail é obrigatório.',
-        pattern: 'O e-mail informado é inválido.',
-      },
-      password: {
-        required: 'A senha é obrigatória.',
-        minlength: 'A senha deve ter pelo menos 8 caracteres.'
-      },
-      confirmPassword: {
-        required: 'A confirmação da senha é obrigatória.',
-        passwordsNotMatch: 'As senhas não correspondem.'
-      }
-    };
-  
-    for (const error in errorMessages[controlName]) {
-      if (control?.hasError(error)) {
-        return errorMessages[controlName][error];
-      }
-    }
-
-    if (controlName === 'confirmPassword' && this.signupForm.hasError('passwordsNotMatch')) {
-      return errorMessages['confirmPassword']['passwordsNotMatch'];
-    }
-    
-    return '';
-  }  
+    return this.formErrorService.getErrorMessage(this.signupForm, controlName);
+  }
 
   /**
    * Sets up the component on initialization, including a listener for changes in the password control

@@ -29,6 +29,7 @@ import { LoadingService } from './core/services/loading.service';
 import { PhonePipe } from './core/models/pipes/phone.pipe';
 import { BirthdatePipe } from './core/models/pipes/birthdate.pipe';
 import { TutorRegistrationComponent } from './pages/tutor-registration/tutor-registration.component';
+import { FormErrorService } from './core/services/form-error.service';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,7 @@ import { TutorRegistrationComponent } from './pages/tutor-registration/tutor-reg
     MatSelectModule,
     MatTooltipModule
   ],
-  providers: [DialogService, AuthService, LoadingService],
+  providers: [DialogService, AuthService, LoadingService, FormErrorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
+import { NAME_PATTERN } from 'src/app/core/constants/regex-patterns';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { DialogService } from 'src/app/core/services/dialog.service';
+import { FormErrorService } from 'src/app/core/services/form-error.service';
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { SignupValidators } from 'src/app/core/validators/signup-validators';
 
@@ -26,11 +28,13 @@ export class TutorRegistrationComponent implements OnInit{
     private router: Router,
     private loadingService: LoadingService,
     private readonly dialogService: DialogService, 
-    private authService: AuthService
+    private authService: AuthService,
+    private formErrorService: FormErrorService,
   ) {
     this.tutorForm = new FormGroup({
       occupation: new FormControl('', [
         Validators.required,
+        Validators.pattern(NAME_PATTERN),
         SignupValidators.noWhiteSpace,
       ]),
       hasProfessionalAssociation: new FormControl('', [
@@ -57,37 +61,7 @@ export class TutorRegistrationComponent implements OnInit{
    * @returns The corresponding error message for the control's error
    */
   public getErrorMessage(controlName: string): string {
-    const control = this.tutorForm.get(controlName);
-
-    const errorMessages: { [key: string]: { [key: string]: string } } = {
-      occupation: { 
-        required: 'A profissão é obrigatória.',
-        whitespace: 'O campo não deve conter apenas espaços em branco.'
-      },
-      hasProfessionalAssociation: { 
-        required: 'Esse campo é obrigatório.' 
-      },
-      professionalAssociation: { 
-        required: 'A entidade de classe é obrigatória.' 
-      },
-      documentNumber: { 
-        required: 'Esse campo é obrigatório.' 
-      },
-      subjectsOfInterest: { 
-        required: 'As matérias de interesse são obrigatórias.' 
-      },
-      phoneNumber: { 
-        required: 'O número de telefone é obrigatório.',
-        minlength: 'O número deve ter 11 dígitos.'
-      },
-    };
-
-    for (const error in errorMessages[controlName]) {
-      if (control?.hasError(error)) {
-        return errorMessages[controlName][error];
-      }
-    }
-    return '';
+    return this.formErrorService.getErrorMessage(this.tutorForm, controlName);
   }
 
   /**
@@ -179,7 +153,6 @@ export class TutorRegistrationComponent implements OnInit{
   public async onSubmit(): Promise<void> {
     try{
       this.loadingService.show();
-      console.log(this.tutorForm);
       this.showSuccessMessage();
     } catch (error) {
       if (error.status === 400) {

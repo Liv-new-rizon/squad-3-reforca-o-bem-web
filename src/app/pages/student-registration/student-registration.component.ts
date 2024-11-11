@@ -6,6 +6,7 @@ import { LoadingService } from 'src/app/core/services/loading.service';
 import { take } from 'rxjs/operators';
 import { DialogService } from 'src/app/core/services/dialog.service';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { FormErrorService } from 'src/app/core/services/form-error.service';
 
 @Component({
   selector: 'app-student-registration',
@@ -29,7 +30,8 @@ export class StudentRegistrationComponent implements OnInit{
     private router: Router,
     private loadingService: LoadingService,
     private readonly dialogService: DialogService, 
-    private authService: AuthService
+    private authService: AuthService,
+    private formErrorService: FormErrorService
   ) {
     this.studentForm = new FormGroup({
       birthDate: new FormControl('', [
@@ -60,34 +62,7 @@ export class StudentRegistrationComponent implements OnInit{
    * @returns The corresponding error message for the control's error
    */
   public getErrorMessage(controlName: string): string {
-    const control = this.studentForm.get(controlName);
-
-    const errorMessages: { [key: string]: { [key: string]: string } } = {
-      birthDate: { 
-        required: 'A data de nascimento é obrigatória.',
-        invalidDate: 'Data inválida.'
-      },
-      educationLevel: { 
-        required: 'A escolaridade é obrigatória.' 
-      },
-      schoolType: { 
-        required: 'O tipo de escola é obrigatório.' 
-      },
-      subjectsOfInterest: { 
-        required: 'As matérias de interesse são obrigatórias.' 
-      },
-      phoneNumber: { 
-        required: 'O número de telefone é obrigatório.',
-        minlength: 'O número deve ter 11 dígitos.'
-      },
-    };
-
-    for (const error in errorMessages[controlName]) {
-      if (control?.hasError(error)) {
-        return errorMessages[controlName][error];
-      }
-    }
-    return '';
+    return this.formErrorService.getErrorMessage(this.studentForm, controlName);
   }
 
   /**
