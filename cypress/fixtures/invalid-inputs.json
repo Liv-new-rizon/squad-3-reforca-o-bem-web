@@ -1,0 +1,10 @@
+{
+  "invalidName": "123",
+  "validName": "Gabriel Santos",
+  "invalidEmail": "emailinvalido",
+  "validEmail": "gabrielsantos@gmail.com",
+  "shortPassword": "123",
+  "validPassword": "12345678",
+  "mismatchPassword": "87654321",
+  "whitespaceOnly": "   "
+}
