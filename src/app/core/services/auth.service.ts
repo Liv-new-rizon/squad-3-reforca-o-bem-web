@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { API_PATH } from 'src/environments/environment';
 import { ILoginData } from '../models/interfaces/ILoginData';
-import { ISignupData } from '../models/interfaces/ISignupData';
 import { IUserInfo } from '../models/interfaces/IUserInfo';
-import { IStudentData } from '../models/interfaces/IStudentData';
-import { ITutorData } from '../models/interfaces/ITutorData';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +11,8 @@ export class AuthService {
   private loginUrl = `${API_PATH}auth/login`;
   private signupUrl = `${API_PATH}users`;
   private meUrl = `${API_PATH}users/me`;
-  private profileUrl = `${API_PATH}profile`
+  private studentUrl = `${API_PATH}profile/student`
+  private tutorUrl = `${API_PATH}profile/tutor`
 
   constructor(private http: HttpClient) {}
 
@@ -44,12 +42,27 @@ export class AuthService {
   }
 
   /**
-   * Sends a registration request to the backend
-   * @param data Contains name, email and password
+   * Sends a user, student or tutor registration request to the backend
+   * @param data The infos that will be registered
+   * @param type Indicates the type of registration ('user', 'student' or 'tutor')
    * @returns Promise with API response
    */
-  public signupUser(data: ISignupData): Promise<object> {
-    return this.http.post<object>(this.signupUrl, data, { headers: this.headers }).toPromise() as Promise<object>;
+  public signup<T>(data: T, type: 'user' | 'student' | 'tutor'): Promise<T> {
+    let url: string;
+    
+    switch(type) {
+      case 'user':
+        url = this.signupUrl;
+        break;
+      case 'student':
+        url = this.studentUrl;
+        break;
+      case 'tutor':
+        url = this.tutorUrl;
+        break;
+    }
+    
+    return this.http.post<T>(url, data, { headers: this.headers }).toPromise() as Promise<T>;
   }
 
   /**
@@ -58,14 +71,5 @@ export class AuthService {
    */
   public getUserInfo(): Promise<IUserInfo> {
     return this.http.get<IUserInfo>(this.meUrl, { headers: this.headers }).toPromise() as Promise<IUserInfo>;
-  }
-
-  /**
-   * Sends a student registration request to the backend
-   * @param data Contains birthDate, educationLevel, schoolType, subjectsOfInterest and phoneNumber
-   * @returns Promise with API response
-   */
-  public signupStudent(data: IStudentData): Promise<object> {
-    return this.http.post<object>(this.profileUrl, data, { headers: this.headers }).toPromise() as Promise<object>;
   }
 }

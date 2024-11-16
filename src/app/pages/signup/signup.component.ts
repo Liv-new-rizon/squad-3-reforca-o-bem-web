@@ -87,7 +87,7 @@ export class SignupComponent implements OnInit {
   public async onSubmit(): Promise<void> {
     try {
       this.loadingService.show();
-      await this.authService.signupUser(this.signupForm.value);
+      await this.authService.signup(this.signupForm.value, 'user');
       this.showSuccessMessage();
     } catch (error) {
       if (error.status === 400) {

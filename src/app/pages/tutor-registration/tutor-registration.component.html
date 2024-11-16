@@ -16,9 +16,9 @@
             <div class="tutor-registration__form">
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="tutor-registration__form--field">
                     <mat-label class="tutor-registration__form--field--label">Profissão</mat-label>
-                    <input matInput type="text" formControlName="occupation" [required]="false" class="tutor-registration__form--field--input" placeholder="Profissão">
-                    <mat-error *ngIf="isControlInvalid('occupation')" class="tutor-registration__form--field--error">
-                        {{ getErrorMessage('occupation') }}
+                    <input matInput type="text" formControlName="profession" [required]="false" class="tutor-registration__form--field--input" placeholder="Profissão">
+                    <mat-error *ngIf="isControlInvalid('profession')" class="tutor-registration__form--field--error">
+                        {{ getErrorMessage('profession') }}
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -26,13 +26,13 @@
             <div class="tutor-registration__form">
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="tutor-registration__form--field has-professional-association">
                     <mat-label class="tutor-registration__form--field--label">Entidade de classe</mat-label>
-                    <mat-select formControlName="hasProfessionalAssociation" [required]="false" class="tutor-registration__form--field--input" placeholder="Possui o documento? ">
-                        <mat-option *ngFor="let hasProfessionalAssociation of hasProfessionalAssociations" [value]="hasProfessionalAssociation">
-                            {{ hasProfessionalAssociation }}
+                    <mat-select formControlName="classEntity" [required]="false" class="tutor-registration__form--field--input" placeholder="Possui o documento? ">
+                        <mat-option *ngFor="let classEntity of classEntitys" [value]="classEntity">
+                            {{ classEntity }}
                         </mat-option>
                     </mat-select>
-                    <mat-error *ngIf="isControlInvalid('hasProfessionalAssociation')" class="tutor-registration__form--field--error">
-                        {{ getErrorMessage('hasProfessionalAssociation') }}
+                    <mat-error *ngIf="isControlInvalid('classEntity')" class="tutor-registration__form--field--error">
+                        {{ getErrorMessage('classEntity') }}
                     </mat-error>
                 </mat-form-field>
                 <mat-icon matTooltip="Ex: CRM de médicos, CREA de engenheiros, CRP de psicólogos etc" class="tutor-registration__form--help">
@@ -43,9 +43,9 @@
             <div class="tutor-registration__form tutor-registration__form--group" *ngIf="showProfessionalFields()">
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="tutor-registration__form--field professional-association">
                     <mat-label class="tutor-registration__form--field--label">Qual entidade de classe?</mat-label>
-                    <input matInput type="text" formControlName="professionalAssociation" [required]="false" class="tutor-registration__form--field--input">
-                    <mat-error *ngIf="isControlInvalid('professionalAssociation')" class="tutor-registration__form--field--error">
-                        {{ getErrorMessage('professionalAssociation') }}
+                    <input matInput type="text" formControlName="regionalCouncil" [required]="false" class="tutor-registration__form--field--input">
+                    <mat-error *ngIf="isControlInvalid('regionalCouncil')" class="tutor-registration__form--field--error">
+                        {{ getErrorMessage('regionalCouncil') }}
                     </mat-error>
                 </mat-form-field>
             
@@ -61,13 +61,13 @@
             <div class="tutor-registration__form">
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="tutor-registration__form--field">
                     <mat-label class="tutor-registration__form--field--label">Matérias </mat-label>
-                    <mat-select formControlName="subjectsOfInterest" multiple [required]="false" class="tutor-registration__form--field--input" placeholder="Quais áreas você tem habilidade? ">
-                        <mat-option *ngFor="let subjectsOfInterest of subjectsOfInterests" [value]="subjectsOfInterest">
-                            {{ subjectsOfInterest }}
+                    <mat-select formControlName="subjectsOfExpertise" multiple [required]="false" class="tutor-registration__form--field--input" placeholder="Quais áreas você tem habilidade? ">
+                        <mat-option *ngFor="let subjectsOfExpertise of subjectsOfExpertises" [value]="subjectsOfExpertise">
+                            {{ subjectsOfExpertise }}
                         </mat-option>
                     </mat-select>
-                    <mat-error *ngIf="isControlInvalid('subjectsOfInterest')" class="tutor-registration__form--field--error">
-                        {{ getErrorMessage('subjectsOfInterest') }}
+                    <mat-error *ngIf="isControlInvalid('subjectsOfExpertise')" class="tutor-registration__form--field--error">
+                        {{ getErrorMessage('subjectsOfExpertise') }}
                     </mat-error>
                 </mat-form-field>
             </div>

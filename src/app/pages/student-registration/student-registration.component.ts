@@ -118,7 +118,7 @@ export class StudentRegistrationComponent implements OnInit{
   public async onSubmit(): Promise<void> {
     try{
       this.loadingService.show();
-      await this.authService.signupStudent(this.studentForm.value);
+      await this.authService.signup(this.studentForm.value, 'student');
       this.showSuccessMessage();
     } catch (error) {
       if (error.status === 400) {

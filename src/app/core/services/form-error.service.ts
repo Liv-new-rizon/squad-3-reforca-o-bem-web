@@ -42,20 +42,23 @@ export class FormErrorService {
       minlength: 'O número deve ter 11 dígitos.'
     },
 
-    occupation: { 
+    profession: { 
       required: 'A profissão é obrigatória.',
       pattern: 'O nome informado é inválido.',
       whitespace: 'O campo não deve estar em branco.'
     },
-    hasProfessionalAssociation: { 
+    classEntity: { 
       required: 'Esse campo é obrigatório.' 
     },
-    professionalAssociation: { 
+    regionalCouncil: { 
       required: 'A entidade de classe é obrigatória.' 
     },
     documentNumber: { 
       required: 'Esse campo é obrigatório.' 
-    }
+    },
+    subjectsOfExpertise: {
+      required: 'As matérias são obrigatórias.'
+    },
   };
 
   public getErrorMessage(form: FormGroup, controlName: string): string {
