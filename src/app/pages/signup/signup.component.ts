@@ -85,9 +85,9 @@ export class SignupComponent implements OnInit {
    * If the form is valid, a success message is displayed
    */
   public async onSubmit(): Promise<void> {
+    this.loadingService.show();
     try {
-      this.loadingService.show();
-      await this.authService.signupUser(this.signupForm.value);
+      await this.authService.signup(this.signupForm.value, 'user');
       this.showSuccessMessage();
     } catch (error) {
       if (error.status === 400) {

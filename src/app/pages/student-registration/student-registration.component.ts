@@ -70,8 +70,8 @@ export class StudentRegistrationComponent implements OnInit{
    * If successful, sets the userName. If it fails redirects to login
    */
   public async ngOnInit(): Promise<void> {
+    this.loadingService.show();
     try {
-      this.loadingService.show();
       const response = await this.authService.getUserInfo();
       this.userName = response.user.name;
     } catch (error) {
@@ -116,9 +116,9 @@ export class StudentRegistrationComponent implements OnInit{
    * If the form is valid, a success message is displayed
    */
   public async onSubmit(): Promise<void> {
+    this.loadingService.show();
     try{
-      this.loadingService.show();
-      await this.authService.signupStudent(this.studentForm.value);
+      await this.authService.signup(this.studentForm.value, 'student');
       this.showSuccessMessage();
     } catch (error) {
       if (error.status === 400) {

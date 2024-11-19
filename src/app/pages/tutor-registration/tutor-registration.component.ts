@@ -16,10 +16,10 @@ import { SignupValidators } from 'src/app/core/validators/signup-validators';
 })
 export class TutorRegistrationComponent implements OnInit{
   public tutorForm: FormGroup;
-  public hasProfessionalAssociations: string[] = [
-    'Sim', 'Não'
+  public classEntitys: string[] = [
+    'sim', 'não'
   ];
-  public subjectsOfInterests: string[] = [
+  public subjectsOfExpertises: string[] = [
     'Língua Portuguesa', 'Inglês', 'Artes', 'Educação Física', 'Matemática', 'Física', 'Química', 'Biologia', 'História', 'Geografia', 'Filosofia', 'Sociologia'
   ];
   public userName = ''
@@ -32,17 +32,17 @@ export class TutorRegistrationComponent implements OnInit{
     private formErrorService: FormErrorService,
   ) {
     this.tutorForm = new FormGroup({
-      occupation: new FormControl('', [
+      profession: new FormControl('', [
         Validators.required,
         Validators.pattern(NAME_PATTERN),
         SignupValidators.noWhiteSpace,
       ]),
-      hasProfessionalAssociation: new FormControl('', [
+      classEntity: new FormControl('', [
         Validators.required,
       ]),
-      professionalAssociation: new FormControl({value: '', disabled: true}),
+      regionalCouncil: new FormControl({value: '', disabled: true}),
       documentNumber: new FormControl({value: '', disabled: true}),
-      subjectsOfInterest: new FormControl('', [
+      subjectsOfExpertise: new FormControl('', [
         Validators.required,
       ]),
       phoneNumber: new FormControl('', [
@@ -57,7 +57,7 @@ export class TutorRegistrationComponent implements OnInit{
   /**
    * It checks the errors in the control and returns the appropriate message based on the control's validation status.
    * 
-   * @param controlName - The name of the form control (e.g: 'occupation')
+   * @param controlName - The name of the form control (e.g: 'profession')
    * @returns The corresponding error message for the control's error
    */
   public getErrorMessage(controlName: string): string {
@@ -69,8 +69,8 @@ export class TutorRegistrationComponent implements OnInit{
    * If successful, sets the userName. If it fails redirects to login
    */
   public async ngOnInit(): Promise<void> {
+    this.loadingService.show();
     try {
-      this.loadingService.show();
       const response = await this.authService.getUserInfo();
       this.userName = response.user.name;
     } catch (error) {
@@ -86,39 +86,39 @@ export class TutorRegistrationComponent implements OnInit{
   }
 
   /**
-   * Sets up value changes listener on the 'hasProfessionalAssociation' field to dynamically enable or disable the 'professionalAssociation' and 'documentNumber' fields
+   * Sets up value changes listener on the 'classEntity' field to dynamically enable or disable the 'regionalCouncil' and 'documentNumber' fields
    * based on the user's selection. Also, applies or removes required validators accordingly.
    */
   private setupFormValueChanges(): void {
-    this.tutorForm.get('hasProfessionalAssociation')?.valueChanges.subscribe(value => {
-      const professionalAssociation = this.tutorForm.get('professionalAssociation');
+    this.tutorForm.get('classEntity')?.valueChanges.subscribe(value => {
+      const regionalCouncil = this.tutorForm.get('regionalCouncil');
       const documentNumber = this.tutorForm.get('documentNumber');
 
-      if (value === 'Sim') {
-        professionalAssociation?.enable();
+      if (value === 'sim') {
+        regionalCouncil?.enable();
         documentNumber?.enable();
-        professionalAssociation?.setValidators([Validators.required]);
+        regionalCouncil?.setValidators([Validators.required]);
         documentNumber?.setValidators([Validators.required]);
       } else {
-        professionalAssociation?.disable();
+        regionalCouncil?.disable();
         documentNumber?.disable();
-        professionalAssociation?.clearValidators();
+        regionalCouncil?.clearValidators();
         documentNumber?.clearValidators();
-        professionalAssociation?.setValue('');
+        regionalCouncil?.setValue('');
         documentNumber?.setValue('');
       }
 
-      professionalAssociation?.updateValueAndValidity();
+      regionalCouncil?.updateValueAndValidity();
       documentNumber?.updateValueAndValidity();
     });
   }
 
   /**
-   * Checks if the 'professionalAssociation' and 'documentNumber' fields should be shown based on the selected value of the 'hasProfessionalAssociation' field.
-   * @returns 'true' if the user selected 'Sim' for 'hasProfessionalAssociation', indicating that additional professional fields should be displayed; otherwise, 'false'.
+   * Checks if the 'regionalCouncil' and 'documentNumber' fields should be shown based on the selected value of the 'classEntity' field.
+   * @returns 'true' if the user selected 'sim' for 'classEntity', indicating that additional professional fields should be displayed; otherwise, 'false'.
    */
   public showProfessionalFields(): boolean {
-    return this.tutorForm.get('hasProfessionalAssociation')?.value === 'Sim';
+    return this.tutorForm.get('classEntity')?.value === 'sim';
   }
 
   /**
@@ -151,8 +151,9 @@ export class TutorRegistrationComponent implements OnInit{
    * If the form is valid, a success message is displayed
    */
   public async onSubmit(): Promise<void> {
+    this.loadingService.show();
     try{
-      this.loadingService.show();
+      await this.authService.signup(this.tutorForm.value, 'tutor');
       this.showSuccessMessage();
     } catch (error) {
       if (error.status === 400) {
