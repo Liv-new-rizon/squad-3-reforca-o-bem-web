@@ -1,0 +1,14 @@
+{
+  "signupSuccess": {
+    "message": "Cadastro prévio realizado com sucesso",
+    "status": 201
+  },
+  "emailExists": {
+    "message": "Email já cadastrado ou inválido",
+    "status": 400
+  },
+  "serverError": {
+    "message": "Erro no cadastro",
+    "status": 500
+  }
+}
