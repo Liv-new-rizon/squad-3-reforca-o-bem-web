@@ -1,18 +1,52 @@
 describe('Signup Page', () => {
+  let usersFixture: Array<{
+    name: string;
+    email: string;
+    password: string;
+  }>;
+  let existingUsersFixture: Array<{
+    name: string;
+    email: string;
+    password: string;
+  }>;
+  let apiResponses: {
+    signupSuccess: { message: string; status: number };
+    emailExists: { message: string; status: number };
+    serverError: { message: string; status: number };
+  };
+  let invalidInputs: {
+    invalidName: string;
+    validName: string;
+    invalidEmail: string;
+    validEmail: string;
+    shortPassword: string;
+    validPassword: string;
+    mismatchPassword: string;
+    whitespaceOnly: string;
+  };
+
   beforeEach(() => {
-    cy.fixture('users').as('usersFixture');
-    cy.fixture('existing-users').as('existingUsersFixture');
-    cy.fixture('api-responses').as('apiResponses');
+    cy.fixture('users').then((data) => {
+      usersFixture = data;
+    });
+    cy.fixture('existing-users').then((data) => {
+      existingUsersFixture = data;
+    });
+    cy.fixture('api-responses').then((data) => {
+      apiResponses = data;
+    });
     cy.visit('/signup');
   });
 
   describe('Form Validation Tests', () => {
-    beforeEach(function () {
-      cy.fixture('invalid-inputs').as('invalidInputs');
+    beforeEach(() => {
+      cy.fixture('invalid-inputs').then((data) => {
+        invalidInputs = data;
+      });
     });
 
-    it('should validate name pattern', function () {
-      const { invalidName, validName } = this['invalidInputs'];
+    it('should validate name pattern', () => {
+      const { invalidName, validName } = invalidInputs;
 
       cy.get('input[formControlName="name"]').type(invalidName).blur();
       cy.contains('O nome informado é inválido.').should('be.visible');
@@ -21,8 +55,8 @@ describe('Signup Page', () => {
       cy.contains('O nome informado é inválido.').should('not.exist');
     });
 
-    it('should validate email pattern', function () {
-      const { invalidEmail, validEmail } = this['invalidInputs'];
+    it('should validate email pattern', () => {
+      const { invalidEmail, validEmail } = invalidInputs;
 
       cy.get('input[formControlName="email"]').type(invalidEmail).blur();
       cy.contains('O e-mail informado é inválido.').should('be.visible');
@@ -31,8 +65,8 @@ describe('Signup Page', () => {
       cy.contains('O e-mail informado é inválido.').should('not.exist');
     });
 
-    it('should validate password minimum length', function () {
-      const { shortPassword, validPassword } = this['invalidInputs'];
+    it('should validate password minimum length', () => {
+      const { shortPassword, validPassword } = invalidInputs;
 
       cy.get('input[formControlName="password"]').type(shortPassword).blur();
       cy.contains('A senha deve ter pelo menos 8 caracteres.').should(
@@ -45,8 +79,8 @@ describe('Signup Page', () => {
       );
     });
 
-    it('should validate passwords match', function () {
-      const { validPassword, mismatchPassword } = this['invalidInputs'];
+    it('should validate passwords match', () => {
+      const { validPassword, mismatchPassword } = invalidInputs;
 
       cy.get('input[formControlName="password"]').type(validPassword);
       cy.get('input[formControlName="confirmPassword"]')
@@ -60,8 +94,8 @@ describe('Signup Page', () => {
       cy.contains('As senhas não correspondem.').should('not.exist');
     });
 
-    it('should validate no whitespace in name field', function () {
-      const { whitespaceOnly } = this['invalidInputs'];
+    it('should validate no whitespace in name field', () => {
+      const { whitespaceOnly } = invalidInputs;
 
       cy.get('input[formControlName="name"]').type(whitespaceOnly).blur();
       cy.contains('O campo não deve estar em branco.').should('be.visible');
@@ -69,28 +103,29 @@ describe('Signup Page', () => {
   });
 
   describe('Form Submission Tests', () => {
-    beforeEach(function () {
+    beforeEach(() => {
       cy.intercept('POST', '**/users', (req) => {
         const newUser = req.body;
-        const userExists = this['existingUsersFixture'].some(
+        const userExists = existingUsersFixture.some(
           (user: any) => user.email === newUser.email
         );
 
         if (userExists) {
           req.reply({
             statusCode: 400,
-            body: this['apiResponses'].emailExists,
+            body: apiResponses.emailExists,
           });
         } else {
           req.reply({
             statusCode: 201,
-            body: this['apiResponses'].signupSuccess,
+            body: apiResponses.signupSuccess,
           });
         }
       }).as('signupRequest');
     });
-    it('should submit the form with valid data and navigate to login page', function () {
-      const validUser = this['usersFixture'][0];
+
+    it('should submit the form with valid data and navigate to login page', () => {
+      const validUser = usersFixture[0];
 
       cy.get('input[formControlName="name"]').type(validUser.name);
       cy.get('input[formControlName="email"]').type(validUser.email);
@@ -102,15 +137,13 @@ describe('Signup Page', () => {
       cy.get('button.signup__button--send').should('be.enabled').click();
 
       cy.wait('@signupRequest').its('response.statusCode').should('eq', 201);
-      cy.contains(this['apiResponses'].signupSuccess.message).should(
-        'be.visible'
-      );
+      cy.contains(apiResponses.signupSuccess.message).should('be.visible');
       cy.contains('Fechar').click();
       cy.url().should('include', '/login');
     });
 
-    it('should show error for existing email', function () {
-      const existingUser = this['existingUsersFixture'][0];
+    it('should show error for existing email', () => {
+      const existingUser = existingUsersFixture[0];
 
       cy.get('input[formControlName="name"]').type(existingUser.name);
       cy.get('input[formControlName="email"]').type(existingUser.email);
@@ -122,17 +155,15 @@ describe('Signup Page', () => {
       cy.get('button.signup__button--send').click();
 
       cy.wait('@signupRequest').its('response.statusCode').should('eq', 400);
-      cy.contains(this['apiResponses'].emailExists.message).should(
-        'be.visible'
-      );
+      cy.contains(apiResponses.emailExists.message).should('be.visible');
     });
 
-    it('should handle server error', function () {
-      const validUser = this['usersFixture'][0];
+    it('should handle server error', () => {
+      const validUser = usersFixture[0];
 
       cy.intercept('POST', '**/users', {
         statusCode: 500,
-        body: this['apiResponses'].serverError,
+        body: apiResponses.serverError,
       }).as('serverError');
 
       cy.get('input[formControlName="name"]').type(validUser.name);
@@ -144,18 +175,16 @@ describe('Signup Page', () => {
 
       cy.get('button.signup__button--send').click();
       cy.wait('@serverError');
-      cy.contains(this['apiResponses'].serverError.message).should(
-        'be.visible'
-      );
+      cy.contains(apiResponses.serverError.message).should('be.visible');
     });
 
-    it('should show loading indicator during submission', function () {
-      const validUser = this['usersFixture'][0];
+    it('should show loading indicator during submission', () => {
+      const validUser = usersFixture[0];
 
       cy.intercept('POST', '**/users', {
         delay: 1000,
         statusCode: 201,
-        body: this['apiResponses'].signupSuccess,
+        body: apiResponses.signupSuccess,
       }).as('delayedSignup');
 
       cy.get('input[formControlName="name"]').type(validUser.name);
