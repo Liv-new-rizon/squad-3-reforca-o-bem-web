@@ -109,8 +109,8 @@ export class LoginComponent implements OnInit {
    * Handles the login process, saving the email in localStorage if necessary.
    */
   public async login(): Promise<void> {
+    this.loadingService.show();
     try {
-      this.loadingService.show();
       const response = await this.authService.loginUser<{ token: string }>(this.loginForm.value);
 
       if (this.loginForm.value.rememberMe) {
