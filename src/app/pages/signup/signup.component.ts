@@ -3,7 +3,6 @@ import { FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
 import { DialogService } from '../../core/services/dialog.service';
 import { SignupValidators } from '../../core/validators/signup-validators';
 import { NAME_PATTERN, EMAIL_PATTERN } from '../../core/constants/regex-patterns';
-import { TObject } from '../../core/models/interfaces/TObject';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth.service';
