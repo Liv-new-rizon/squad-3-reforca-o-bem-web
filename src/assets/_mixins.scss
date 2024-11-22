@@ -72,3 +72,10 @@
   @include flex-center;
   @include section-padding-140;
 }
+
+@mixin yellow-line {
+  height: 4px;
+  width: 25%;
+  background-color: $yellow-variation-2;
+  border: 0;
+}

@@ -25,12 +25,12 @@
     &__nav {
         display: flex;
 
-        &--items {
+        &__items {
             display: flex;
             padding-left: 0;
             gap: $spacing-64;
 
-            &--button {
+            &__button {
                 @include open-sans-base;
                 font-size: $text-size-16;
                 font-weight: 400;
@@ -39,15 +39,15 @@
                     color: $purple-variation-2;
                     transition: color 0.3s ease;
                 }
-            }
 
-            .join {
-                color: $white-color;
-                border-radius: $spacing-8;
-                font-weight: 600;
-                padding: $spacing-20 $spacing-20;
-                background-color: $purple-variation-1;
-                letter-spacing: 1px;
+                &__join {
+                    color: $white-color !important;
+                    border-radius: $spacing-8;
+                    font-weight: 500;
+                    padding: $spacing-20 $spacing-20;
+                    background-color: $purple-variation-1;
+                    letter-spacing: 1px;
+                }
             }
         }
     }
@@ -61,32 +61,32 @@
     &__all {
         display: flex;
 
-        &--left {
+        &__content {
             @include content-container;
             width: 733px;
             margin-right: $spacing-32;
     
-            &--title {
+            &__title {
                 @include title-text;
             }
     
-            &--subtitle {
+            &__subtitle {
                 @include open-sans-base;
                 font-size: $text-size-24;
                 color: $primary-color;
                 margin-bottom: $spacing-32;
             }
 
-            &--bottom {
+            &__bottom {
                 display: flex;
                 justify-content: space-between;
                 
-                &--button {
+                &__button {
                     @include purple-button;
                     margin-top: 40px;
                 }
                 
-                &--decoration {
+                &__decoration {
                     width: 100%;
                     max-width: 256px;
                     height: 62px;
@@ -94,10 +94,10 @@
             }
         }
     
-        &--right {
+        &__illustration {
             display: flex;
     
-            &--image {
+            &__image {
                 max-width: 394px;
                 height: auto;
             }
@@ -114,47 +114,48 @@
     &__all {
         display: flex;
 
-        &--left {
+        &__illustration {
             display: flex;
 
-            &--image {
+            &__image {
                 max-width: 440px;
                 height: auto;
             }
         }
 
-        &--right {
+        &__content {
             @include content-container;
             width: 620px;
             margin-left: 124px;
 
-            &--subtitle {
+            &__subtitle {
                 @include subtitle-text;
             }
 
-            &--title {
+            &__title {
                 @include title-text;
             }
 
-            &--line {
+            &__line {
+                @include yellow-line;
                 margin: 0;
             }
 
-            &--type {
+            &__type {
                 display: flex;
                 margin-top: $spacing-32;
 
-                &--image {
+                &__image {
                     max-width: 96px;
                     height: auto;
                 }
 
-                &--info {
+                &__info {
                     @include flex-column;
                     margin-left: $spacing-16;
                     justify-content: center;
 
-                    &--title {
+                    &__title {
                         @include open-sans-base;
                         font-size: $text-size-20;
                         font-weight: 600;
@@ -162,16 +163,16 @@
                         margin-bottom: $spacing-8;
                     }
 
-                    &--text {
+                    &__text {
                         @include body-text;
                     }
                 }
             }
 
-            &--student {
+            &__student {
                 max-width: 613px;
 
-                &--image {
+                &__image {
                     max-width: 96px;
                     height: auto;
                 }
@@ -189,7 +190,7 @@
         max-width: 400px;
         margin-bottom: $spacing-32;
 
-        &--title {
+        &__title {
             @include open-sans-base;
             font-size: $text-size-40;
             font-weight: 700;
@@ -198,9 +199,9 @@
             margin-bottom: 0;
         }
 
-        &--line {
-            margin-top: 0;
-            margin-bottom: 0;
+        &__line {
+            @include yellow-line;
+            margin-right: 0;
         }
     }
 
@@ -210,20 +211,20 @@
         height: 463px;
         background-color: $purple-variation-2;
 
-        &--all {
+        &__all {
             @include flex-center;
             flex-direction: column;
 
-            &--item {
+            &__item {
                 @include flex-center;
                 align-items: flex-start;
 
-                &--each {
+                &__each {
                     @include flex-center;
                     flex-direction: column;
                     width: 352px;
 
-                    &--number {
+                    &__number {
                         @include flex-center;
                         @include open-sans-base;
                         font-size: $text-size-64;
@@ -237,7 +238,7 @@
                         margin-bottom: $spacing-32;
                     }
 
-                    &--text {
+                    &__text {
                         @include open-sans-base;
                         font-size: $text-size-24;
                         font-weight: 300;
@@ -247,21 +248,20 @@
                     }
                 }
 
-                &--image {
+                &--arrow1 {
                     width: 5%;
                     height: auto;
-                }
-
-                .arrow1 {
                     align-self: flex-end;
                 }
 
-                .arrow2 {
+                &--arrow2 {
+                    width: 5%;
+                    height: auto;
                     align-self: flex-start;
                 }
             }
 
-            &--button {
+            &__button {
                 @include purple-button;
                 margin-top: $spacing-32;
             }
@@ -280,15 +280,15 @@
         display: flex;
         flex-direction: row;
 
-        &--left {
+        &__content {
             @include content-container;
             margin-right: 40px;
 
-            &--subtitle {
+            &__subtitle {
                 @include subtitle-text;
             }
 
-            &--title {
+            &__title {
                 @include title-text;
                 margin-bottom: $spacing-28;
             }
@@ -303,8 +303,8 @@
             }
         }
 
-        &--right {
-            &--image {
+        &__illustration {
+            &__image {
                 max-width: 529px;
                 height: auto;
             }
@@ -319,37 +319,38 @@
     &__all {
         display: flex;
 
-        &--left {
-            &--image {
+        &__illustration {
+            &__image {
                 max-width: 440px;
                 height: auto;
             }
         }
 
-        &--right {
+        &__content {
             @include content-container;
             width: 620px;
             margin-left: 86px;
 
-            &--subtitle {
+            &__subtitle {
                 @include subtitle-text;
             }
 
-            &--title {
+            &__title {
                 @include title-text;
             }
-
-            &--line {
+            
+            &__line {
+                @include yellow-line;
                 margin: 0;
             }
 
-            &--text {
+            &__text {
                 @include body-text;
                 margin-bottom: $spacing-8;
                 margin-top: $spacing-20;
             }
 
-            &--button {
+            &__button {
                 @include purple-button;
                 margin-top: 40px;
                 width: 290px;
@@ -361,7 +362,7 @@
 .decoration {
     @include flex-center;
 
-    &--image {
+    &__image {
         max-width: 20%;
         height: auto;
     }
@@ -377,7 +378,7 @@
         @include flex-center;
         gap: 120px;
 
-        &--type {
+        &__type {
             @include flex-center;
             flex-direction: column;
             width: 448px;
@@ -386,12 +387,12 @@
             border-radius: $border-radius-32;
             cursor: pointer;
 
-            &--image {
+            &__image {
                 max-width: 144px;
                 height: auto;
             }
 
-            &--title {
+            &__title {
                 @include open-sans-base;
                 font-size: $text-size-32;
                 font-weight: 600;
@@ -402,7 +403,7 @@
                 margin-bottom: $spacing-28;
             }
 
-            &--subtitle {
+            &__subtitle {
                 @include open-sans-base;
                 font-size: $text-size-20;
                 font-weight: 400;
@@ -425,7 +426,7 @@
     height: 436px;
     background-color: $purple-variation-1;
 
-    &__text1 {
+    &--text1 {
         @include open-sans-base;
         font-size: $text-size-32;
         font-weight: 600;
@@ -435,7 +436,7 @@
         margin-bottom: 4px;
     }
 
-    &__text2 {
+    &--text2 {
         @include open-sans-base;
         font-size: $text-size-32;
         font-weight: 600;
@@ -454,11 +455,11 @@
         justify-content: space-between;
         margin-top: $spacing-64;
 
-        &--items {
+        &__items {
             display: flex;
             gap: $spacing-36;
 
-            &--button {
+            &__button {
                 @include open-sans-base;
                 font-size: $text-size-16;
                 color: $white-color !important;
@@ -472,18 +473,22 @@
             }
         }
 
-        &--social {
+        &__social {
             display: flex;
             gap: $spacing-24;
 
-            &--media {
+            &__media {
                 width: 40px;
                 height: auto;
             }
         }
     }
 
-    &__divider {
+    &__line {
+        height: 1px;
+        width: 100%;
+        background-color: $white-color;
+        border: 0;
         margin-top: $spacing-64;
         margin-bottom: $spacing-32;
     }

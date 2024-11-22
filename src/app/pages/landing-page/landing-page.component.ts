@@ -7,7 +7,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./landing-page.component.scss'],
 })
 export class LandingPageComponent {
-  public constructor(private router: Router) {}
+  public currentYear: number;
+
+  public constructor(private router: Router) {
+    this.currentYear = new Date().getFullYear();
+  }
 
   /**
    * Sends the user to a determined section of the page.
