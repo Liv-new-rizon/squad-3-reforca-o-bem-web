@@ -1,6 +1,74 @@
 @mixin button-base {
-    width: $button-width;
-    height: $button-height;
-    border-radius: $border-radius-24;
-    font-size: $text-size-14;
+  width: $button-width;
+  height: $button-height;
+  border-radius: $border-radius-24;
+  font-size: $text-size-14;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@mixin open-sans-base {
+  font-family: "Open Sans", sans-serif;
+  letter-spacing: 0;
+}
+
+@mixin title-text {
+  @include open-sans-base;
+  font-size: $text-size-48;
+  font-weight: 700;
+  color: $primary-color;
+  line-height: 65px;
+  margin-bottom: $spacing-8;
+}
+
+@mixin subtitle-text {
+  @include open-sans-base;
+  font-size: $text-size-20;
+  font-weight: 600;
+  color: $primary-color;
+  margin-bottom: $spacing-8;
+}
+
+@mixin body-text {
+  @include open-sans-base;
+  font-size: $text-size-16;
+  font-weight: 400;
+  color: $black-variation-1;
+  line-height: 24px;
+}
+
+@mixin purple-button {
+  padding: 32px 37px;
+  @include open-sans-base;
+  font-size: $text-size-24;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: $white-color !important;
+  background-color: $purple-variation-1;
+  border-radius: $border-radius-32;
+}
+
+@mixin section-padding-140 {
+  padding-left: 140px;
+  padding-right: 140px;
+}
+
+@mixin section-container {
+  @include flex-center;
+  @include section-padding-140;
 }

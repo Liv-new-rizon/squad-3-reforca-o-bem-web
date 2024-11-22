@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 import { LoginComponent } from './pages/login/login.component';
@@ -30,6 +31,7 @@ import { PhonePipe } from './core/models/pipes/phone.pipe';
 import { BirthdatePipe } from './core/models/pipes/birthdate.pipe';
 import { TutorRegistrationComponent } from './pages/tutor-registration/tutor-registration.component';
 import { FormErrorService } from './core/services/form-error.service';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { FormErrorService } from './core/services/form-error.service';
     LoadingComponent,
     PhonePipe,
     BirthdatePipe,
-    TutorRegistrationComponent
+    TutorRegistrationComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,8 @@ import { FormErrorService } from './core/services/form-error.service';
     HttpClientModule,
     MatProgressSpinnerModule,
     MatSelectModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDividerModule
   ],
   providers: [DialogService, AuthService, LoadingService, FormErrorService],
   bootstrap: [AppComponent]
