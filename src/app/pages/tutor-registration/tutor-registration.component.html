@@ -27,8 +27,8 @@
                 <mat-form-field subscriptSizing="dynamic" appearance="outline" class="tutor-registration__form--field has-professional-association">
                     <mat-label class="tutor-registration__form--field--label">Entidade de classe</mat-label>
                     <mat-select formControlName="classEntity" [required]="false" class="tutor-registration__form--field--input" placeholder="Possui o documento? ">
-                        <mat-option *ngFor="let classEntity of classEntitys" [value]="classEntity">
-                            {{ classEntity }}
+                        <mat-option *ngFor="let classEntity of classEntities" [value]="classEntity.value">
+                            {{ classEntity.display }}
                         </mat-option>
                     </mat-select>
                     <mat-error *ngIf="isControlInvalid('classEntity')" class="tutor-registration__form--field--error">

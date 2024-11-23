@@ -16,8 +16,9 @@ import { SignupValidators } from 'src/app/core/validators/signup-validators';
 })
 export class TutorRegistrationComponent implements OnInit{
   public tutorForm: FormGroup;
-  public classEntitys: string[] = [
-    'sim', 'não'
+  public classEntities: { display: string; value: string; }[] = [
+    { display: 'Sim', value: 'sim' },
+    { display: 'Não', value: 'não' }
   ];
   public subjectsOfExpertises: string[] = [
     'Língua Portuguesa', 'Inglês', 'Artes', 'Educação Física', 'Matemática', 'Física', 'Química', 'Biologia', 'História', 'Geografia', 'Filosofia', 'Sociologia'
